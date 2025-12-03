@@ -3,26 +3,316 @@
 <head>
     <meta charset="UTF-8">
     <title>Reproducible Bioinformatics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        :root {
+            --bg: #ffffff;
+            --accent: #0077b6;
+            --accent-dark: #005582;
+            --text-main: #222222;
+            --text-muted: #555555;
+            --light-gray: #f5f5f5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            max-width: 800px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
             line-height: 1.6;
         }
+
+        /* NAVBAR */
+
+        header {
+            background-color: #0b1726;
+            color: #ffffff;
+            padding: 0.7rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* LAYOUT GENERALE */
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 3rem 1.5rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 0.75rem;
+        }
+
         h1 {
-            color: #333;
+            font-size: 2rem;
         }
+
+        h2 {
+            font-size: 1.4rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
         p {
-            color: #555;
+            margin-bottom: 0.75rem;
+            color: var(--text-muted);
         }
+
+        ul {
+            margin-left: 1.2rem;
+            margin-top: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        /* HERO */
+
+        .hero {
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: 1.8rem 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-title {
+            font-size: 2.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .hero-tagline {
+            font-weight: 500;
+            color: var(--accent-dark);
+        }
+
+        /* GRID SEMPLICE */
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 1.8rem;
+        }
+
+        @media (max-width: 800px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+            main {
+                padding: 1.5rem 1rem 2.5rem 1rem;
+            }
+        }
+
+        .card-list li {
+            margin-bottom: 0.4rem;
+        }
+
+        .small-muted {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* CONTATTI */
+
+        .contact-block {
+            background: var(--light-gray);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
     </style>
 </head>
 <body>
-    <h1>Reproducible Bioinformatics</h1>
-    <p>
-        Welcome to the official website of the Reproducible Bioinformatics organization.<br>
-        This page is a placeholder — the full website will be available soon.
-    </p>
+
+<header>
+    <div class="nav-container">
+        <div class="brand">Reproducible Bioinformatics</div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#publications">Publications</a></li>
+                <li><a href="#collaborations">Collaborations</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contacts">Contacts</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+
+    <!-- HOME / HERO -->
+    <section id="home">
+        <div class="hero">
+            <div class="hero-title">Reproducible Bioinformatics</div>
+            <div class="hero-subtitle">Data-driven, transparent and reusable computational biology</div>
+            <p class="hero-tagline">
+                We build and promote reproducible workflows for bulk and single-cell/spatial omics,
+                making computational analyses verifiable, portable and easy to reuse.
+            </p>
+        </div>
+
+        <div class="two-col">
+            <div>
+                <h2>Our activities</h2>
+                <p>
+                    Our group focuses on reproducible bioinformatics and single-cell / spatial omics.
+                    We work at the interface between wet lab and computational analysis, with a strong
+                    emphasis on transparency and long-term reusability.
+                </p>
+                <ul class="card-list">
+                    <li><strong>Reproducible workflows</strong> for bulk RNA-seq, single-cell and spatial transcriptomics.</li>
+                    <li><strong>Containerised environments</strong> (Docker / Singularity) to freeze tools and dependencies.</li>
+                    <li><strong>FAIR and open science</strong> practices for sharing data, code and pipelines.</li>
+                    <li><strong>Training & teaching</strong> in reproducible analysis for students and collaborators.</li>
+                </ul>
+            </div>
+            <div>
+                <h2>News</h2>
+                <p class="small-muted">
+                    Here you can list recent news, talks, or tweets about your tools.
+                    Edit directly in this HTML file.
+                </p>
+                <ul>
+                    <li><strong>[YYYY]</strong> CREDO released as a new framework for reproducible environments.</li>
+                    <li><strong>[YYYY]</strong> New workflows for single-cell RNA-seq benchmark available.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM -->
+    <section id="team">
+        <h2>Team</h2>
+        <p>
+            Short description of the group. For example: principal investigator, postdocs, PhD students,
+            and collaborators involved in reproducible bioinformatics and omics analysis.
+        </p>
+        <ul>
+            <li><strong>Name Surname</strong> – Role / position</li>
+            <li><strong>Name Surname</strong> – Role / position</li>
+            <li><strong>…</strong></li>
+        </ul>
+    </section>
+
+    <!-- PUBLICATIONS -->
+    <section id="publications">
+        <h2>Publications</h2>
+        <p>
+            You can link to PubMed, Google Scholar, or keep a short curated list of key papers related
+            to reproducible bioinformatics and your tools.
+        </p>
+        <ul>
+            <li>
+                <strong>Title of a key paper</strong> – Journal, year.
+                <span class="small-muted">[link to PubMed or DOI]</span>
+            </li>
+            <li>
+                <strong>Another relevant paper</strong> – Journal, year.
+            </li>
+        </ul>
+    </section>
+
+    <!-- COLLABORATIONS -->
+    <section id="collaborations">
+        <h2>Collaborations</h2>
+        <p>
+            Briefly describe main collaborations with other labs, clinical units, or infrastructures
+            where reproducible workflows are used or developed.
+        </p>
+        <ul>
+            <li>Collaboration 1 – short description.</li>
+            <li>Collaboration 2 – short description.</li>
+        </ul>
+    </section>
+
+    <!-- SERVICES / TOOLS -->
+    <section id="services">
+        <h2>Services & tools</h2>
+        <p>
+            Here you can list the tools and services provided by the group. Each item can link to a GitHub
+            repository, a Shiny app, or an external website.
+        </p>
+        <ul>
+            <li><strong>Docker4seq</strong> – Bulk RNA-seq pipelines based on Docker. [link]</li>
+            <li><strong>rCASC</strong> – Single-cell RNA-seq workflows. [link]</li>
+            <li><strong>CREDO</strong> – Framework for reproducible computational environments. [link]</li>
+            <li><strong>Custom analysis support</strong> for bulk, single-cell and spatial transcriptomics.</li>
+        </ul>
+    </section>
+
+    <!-- CONTACTS -->
+    <section id="contacts">
+        <h2>Contacts</h2>
+        <div class="contact-block">
+            <p><strong>Reproducible Bioinformatics</strong></p>
+            <p class="small-muted">
+                Department / Institute<br>
+                Address line 1<br>
+                City, Country
+            </p>
+            <p class="small-muted">
+                Email: <a href="mailto:your.email@university.it">your.email@university.it</a><br>
+                (Add any other relevant contact info here.)
+            </p>
+        </div>
+    </section>
+
+</main>
+
 </body>
 </html>
