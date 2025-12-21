@@ -95,8 +95,9 @@
                         progressEl.textContent = `Processing ${member.firstName} ${member.lastName} (${processedMembers}/${members.length})...`;
                     }
 
-                    // Query NCBI E-utilities
-                    const searchQuery = `${lastName} ${firstInitial}[Author] AND (${startYear}:${endYear}[PDAT])`;
+                    // Query NCBI E-utilities with affiliation for more precise results
+                    const affiliation = member.affiliation || 'University of Turin';
+                    const searchQuery = `${lastName} ${firstInitial}[Author] AND ${affiliation}[Affiliation] AND (${startYear}:${endYear}[PDAT])`;
                     const searchUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURIComponent(searchQuery)}&retmode=json&retmax=100`;
 
                     try {
