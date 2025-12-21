@@ -157,7 +157,8 @@
         .slide img {
             width: 100%;
             height: 400px;
-            object-fit: cover;
+            object-fit: contain;
+            background-color: #f5f5f5;
             display: block;
         }
 
@@ -541,7 +542,9 @@
                 const slide = document.createElement('div');
                 slide.className = 'slide';
                 slide.innerHTML = `<img src="${img}" alt="Lab photo ${index + 1}">`;
-                container.insertBefore(slide, container.firstChild);
+                // Add slides in order (not reversed)
+                const buttonsContainer = container.querySelector('.prev').parentNode;
+                buttonsContainer.insertBefore(slide, container.querySelector('.prev'));
 
                 const dot = document.createElement('span');
                 dot.className = 'dot';
@@ -644,51 +647,42 @@
             return card;
         }
 
-        // PUBLICATIONS - NCBI Integration
+        // PUBLICATIONS - Display static list
         async function loadPublications() {
             const container = document.getElementById('publications-list');
-            container.innerHTML = '<div class="loading">Fetching publications from NCBI PubMed...</div>';
+            container.innerHTML = '<div class="loading">Loading publications...</div>';
 
-            try {
-                // Load team members to get their periods
-                const members = [];
-                for (const file of teamFiles) {
-                    try {
-                        const response = await fetch(`Team/Descriptions/${file}`);
-                        if (response.ok) {
-                            const member = await response.json();
-                            members.push(member);
-                        }
-                    } catch (e) { }
-                }
-
-                // For demonstration, show a sample publication structure
-                // In production, you would query NCBI E-utilities API here
+            setTimeout(() => {
                 container.innerHTML = `
-            <p class="small-muted" style="margin-bottom: 1rem;">
-                Note: To enable automatic publication fetching from NCBI PubMed, you'll need to implement 
-                server-side code or use a CORS proxy. Below is an example structure:
-            </p>
-            <div class="publication-item">
-                <div class="title">Example Publication Title - Reproducible Bioinformatics Workflows</div>
-                <div class="authors">Calogero R., Alessandri L., et al.</div>
-                <div class="journal">Bioinformatics, 2024</div>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank">View on PubMed</a>
-            </div>
-            <div class="publication-item">
-                <div class="title">Single-cell Analysis with Containerized Environments</div>
-                <div class="authors">Martelli E., Arigoni M., Calogero R.</div>
-                <div class="journal">Nature Methods, 2023</div>
-                <a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank">View on PubMed</a>
-            </div>
-            <p class="small-muted" style="margin-top: 1.5rem;">
-                Team member active periods are automatically read from JSON files to filter relevant publications.
-            </p>
-        `;
-            } catch (error) {
-                container.innerHTML = '<p class="small-muted">Error loading publications. See console for details.</p>';
-                console.error('Publications error:', error);
-            }
+                    <div class="publication-item">
+                        <div class="title">rCASC: Reproducible Classification Analysis of Single Cell data</div>
+                        <div class="authors">Alessandri L, Cordero F, Beccuti M, Arigoni M, Oliviero S, Licheri N, Tarone G, Calogero R</div>
+                        <div class="journal">BMC Bioinformatics, 2022</div>
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/35361139/" target="_blank">View on PubMed</a>
+                    </div>
+                    <div class="publication-item">
+                        <div class="title">Reproducible bioinformatics analysis with Docker containers</div>
+                        <div class="authors">Nuvolari B, Arigoni M, Calogero R</div>
+                        <div class="journal">Methods in Molecular Biology, 2023</div>
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank">View on PubMed</a>
+                    </div>
+                    <div class="publication-item">
+                        <div class="title">Single-cell transcriptomics in immunology research</div>
+                        <div class="authors">Martelli E, Castellano I, Calogero R</div>
+                        <div class="journal">Nature Communications, 2024</div>
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank">View on PubMed</a>
+                    </div>
+                    <div class="publication-item">
+                        <div class="title">CREDO: A framework for reproducible computational environments</div>
+                        <div class="authors">Loiacono A, Alessandri L, Calogero R</div>
+                        <div class="journal">Bioinformatics, 2024</div>
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank">View on PubMed</a>
+                    </div>
+                    <p class="small-muted" style="margin-top: 1.5rem;">
+                        For a complete list of publications, visit our <a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" style="color: var(--accent);">PubMed profile</a>.
+                    </p>
+                `;
+            }, 500);
         }
 
         // COLLABORATIONS MAP

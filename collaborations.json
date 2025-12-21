@@ -10,31 +10,193 @@
     },
     "collaborations": [
         {
-            "name": "Example Institution 1",
+            "name": "Università degli Studi di Milano - Veterinary Sciences",
+            "city": "Lodi",
+            "country": "Italy",
+            "lat": 45.3136,
+            "lon": 9.5034,
+            "description": "Veterinary and animal sciences research",
+            "contact": "Prof. Fabrizio Ceciliani, Prof. Cristina Lecchi"
+        },
+        {
+            "name": "Università degli Studi di Milano - Stem Cell Lab",
+            "city": "Milano",
+            "country": "Italy",
+            "lat": 45.4773,
+            "lon": 9.1815,
+            "description": "Stem cell research and regenerative medicine",
+            "contact": "Prof. Yvan Torrente"
+        },
+        {
+            "name": "IRCCS Ca' Granda - Pediatric Nephro-urology",
             "city": "Milano",
             "country": "Italy",
             "lat": 45.4642,
             "lon": 9.1900,
-            "description": "Collaboration on single-cell analysis projects",
-            "contact": "Dr. Example Name"
+            "description": "Translational research in pediatric nephro-urology",
+            "contact": "Dr. Federica Collino"
         },
         {
-            "name": "Example Institution 2",
-            "city": "Rome",
+            "name": "CNR Institute of Biostructure and Bioimaging",
+            "city": "Torino",
+            "country": "Italy",
+            "lat": 45.0628,
+            "lon": 7.6621,
+            "description": "Molecular biotechnology and bioimaging",
+            "contact": "Dr. Sharmila Fagoonee"
+        },
+        {
+            "name": "Istituto Zooprofilattico Sperimentale",
+            "city": "Torino",
+            "country": "Italy",
+            "lat": 45.0879,
+            "lon": 7.6715,
+            "description": "Veterinary diagnostics and research",
+            "contact": "Dr. Alessandro Benedetto"
+        },
+        {
+            "name": "University of Turin - Internal Medicine",
+            "city": "Torino",
+            "country": "Italy",
+            "lat": 45.0628,
+            "lon": 7.6621,
+            "description": "Internal medicine and vascular biology",
+            "contact": "Prof. Maria Felice Brizzi"
+        },
+        {
+            "name": "University of Turin - Immunology Lab",
+            "city": "Torino",
+            "country": "Italy",
+            "lat": 45.0628,
+            "lon": 7.6621,
+            "description": "Cancer immunology research",
+            "contact": "Prof. Paola Cappello"
+        },
+        {
+            "name": "AOU Città della Salute - Hematology",
+            "city": "Torino",
+            "country": "Italy",
+            "lat": 45.0628,
+            "lon": 7.6621,
+            "description": "Hematology and molecular biotechnology",
+            "contact": "Dr. Mattia D'Agostino"
+        },
+        {
+            "name": "Candiolo Cancer Institute - IRCCS",
+            "city": "Candiolo",
+            "country": "Italy",
+            "lat": 44.9667,
+            "lon": 7.5989,
+            "description": "Tumor microenvironment and vascular oncology",
+            "contact": "Prof. Enrico Giraudo, Prof. Federico Bussolino"
+        },
+        {
+            "name": "University of Turin - Cancer Immunology",
+            "city": "Torino",
+            "country": "Italy",
+            "lat": 45.0628,
+            "lon": 7.6621,
+            "description": "Cancer immunology and vaccine development",
+            "contact": "Prof. Federica Cavallo"
+        },
+        {
+            "name": "Human Technopole",
+            "city": "Milano",
+            "country": "Italy",
+            "lat": 45.5167,
+            "lon": 9.2167,
+            "description": "Computational biology and genomics",
+            "contact": "Dr. Aurora Savino"
+        },
+        {
+            "name": "AOU S. Luigi - Neurology & MS Center",
+            "city": "Orbassano",
+            "country": "Italy",
+            "lat": 45.0083,
+            "lon": 7.5333,
+            "description": "Multiple sclerosis research and treatment",
+            "contact": "Prof. Antonio Bertolotto"
+        },
+        {
+            "name": "University of Turin - Clinical Sciences",
+            "city": "Torino",
+            "country": "Italy",
+            "lat": 45.0628,
+            "lon": 7.6621,
+            "description": "Clinical and biological sciences",
+            "contact": "Prof. Michele De Bortoli"
+        },
+        {
+            "name": "University of Bologna",
+            "city": "Bologna",
+            "country": "Italy",
+            "lat": 44.4949,
+            "lon": 11.3426,
+            "description": "Immunology and metastasis biology",
+            "contact": "Prof. Pier-Luigi Lollini"
+        },
+        {
+            "name": "University of Verona",
+            "city": "Verona",
+            "country": "Italy",
+            "lat": 45.4384,
+            "lon": 10.9916,
+            "description": "Functional genomics",
+            "contact": "Dr. Cristina Beltrami"
+        },
+        {
+            "name": "SISSA Trieste",
+            "city": "Trieste",
+            "country": "Italy",
+            "lat": 45.6495,
+            "lon": 13.7768,
+            "description": "Computational genomics",
+            "contact": "Prof. Remo Sanges"
+        },
+        {
+            "name": "Sapienza University of Rome",
+            "city": "Roma",
             "country": "Italy",
             "lat": 41.9028,
             "lon": 12.4964,
-            "description": "Joint research on cancer genomics",
-            "contact": "Prof. Example Name"
+            "description": "Parasitology and infectious diseases",
+            "contact": "Prof. Bruno Arcà"
         },
         {
-            "name": "Example International Partner",
-            "city": "Barcelona",
+            "name": "Italian Institute of Technology",
+            "city": "Genova",
+            "country": "Italy",
+            "lat": 44.4056,
+            "lon": 8.9463,
+            "description": "Synaptic neuroscience and technology",
+            "contact": "Prof. Fabio Benfenati"
+        },
+        {
+            "name": "Centro de Investigación del Cáncer",
+            "city": "Salamanca",
             "country": "Spain",
-            "lat": 41.3851,
-            "lon": 2.1734,
-            "description": "Collaboration on reproducible workflows",
-            "contact": "Dr. Example Name"
+            "lat": 40.9651,
+            "lon": -5.6640,
+            "description": "Molecular genetics in onco-hematology",
+            "contact": "Dr. Ana E. Rodríguez"
+        },
+        {
+            "name": "University of Turin - Bertero Lab",
+            "city": "Torino",
+            "country": "Italy",
+            "lat": 45.0628,
+            "lon": 7.6621,
+            "description": "Cardiovascular development and disease modeling",
+            "contact": "Prof. Alessandro Bertero"
+        },
+        {
+            "name": "Harvard Medical School / Children's Hospital Boston",
+            "city": "Boston",
+            "country": "USA",
+            "lat": 42.3601,
+            "lon": -71.0589,
+            "description": "Cancer pathology and lymphoma research",
+            "contact": "Prof. Roberto Chiarle"
         }
     ]
 }
