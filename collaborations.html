@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Collaborations - Reproducible Bioinformatics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="brand"><a href="index.html">Reproducible Bioinformatics</a></div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="publications.html">Publications</a></li>
+                    <li><a href="collaborations.html">Collaborations</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contacts.html">Contacts</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h2>Collaborations</h2>
+        <p>
+            Our lab collaborates with research groups and institutions worldwide to advance reproducible
+            bioinformatics and computational biology.
+        </p>
+        <div id="map"></div>
+        <div id="collaboration-list"></div>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        async function loadCollaborations() {
+            try {
+                const response = await fetch('collaborations.json');
+                const data = await response.json();
+
+                // Initialize map centered on Torino
+                const map = L.map('map').setView([data.homeLocation.lat, data.homeLocation.lon], 5);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                // Home location marker (Torino) - red
+                const homeIcon = L.icon({
+                    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41]
+                });
+
+                L.marker([data.homeLocation.lat, data.homeLocation.lon], { icon: homeIcon })
+                    .addTo(map)
+                    .bindPopup(`<b>${data.homeLocation.name}</b><br>${data.homeLocation.description}`);
+
+                // Collaboration markers - blue
+                const collabIcon = L.icon({
+                    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41]
+                });
+
+                const listContainer = document.getElementById('collaboration-list');
+                listContainer.innerHTML = '<h3>Collaboration Partners</h3><ul>';
+
+                data.collaborations.forEach(collab => {
+                    L.marker([collab.lat, collab.lon], { icon: collabIcon })
+                        .addTo(map)
+                        .bindPopup(`<b>${collab.name}</b><br>${collab.city}, ${collab.country}<br>${collab.description}`);
+
+                    listContainer.innerHTML += `<li><strong>${collab.name}</strong> (${collab.city}, ${collab.country}) – ${collab.description}</li>`;
+                });
+
+                listContainer.innerHTML += '</ul>';
+
+            } catch (error) {
+                console.error('Error loading collaborations:', error);
+                document.getElementById('collaboration-list').innerHTML =
+                    '<p class="small-muted">Error loading collaboration data.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCollaborations();
+        });
+    </script>
+
+</body>
+
+</html>

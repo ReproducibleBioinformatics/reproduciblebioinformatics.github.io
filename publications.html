@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Publications - Reproducible Bioinformatics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="brand"><a href="index.html">Reproducible Bioinformatics</a></div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="publications.html">Publications</a></li>
+                    <li><a href="collaborations.html">Collaborations</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contacts.html">Contacts</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h2>Publications</h2>
+        <p>
+            Publications from our team members, automatically fetched from NCBI PubMed based on affiliation periods.
+        </p>
+        <div id="publications-list">
+            <div class="loading">Loading publications from PubMed...</div>
+        </div>
+    </main>
+
+    <script src="common.js"></script>
+    <script>
+        // NCBI E-utilities API integration
+        async function fetchPublicationsFromNCBI() {
+            const container = document.getElementById('publications-list');
+            container.innerHTML = '<div class="loading">Fetching publications from NCBI PubMed...</div>';
+
+            try {
+                // Load all team members to get their periods
+                const members = [];
+                for (const file of teamFiles) {
+                    try {
+                        const response = await fetch(`Team/Descriptions/${file}`);
+                        if (response.ok) {
+                            const member = await response.json();
+                            members.push(member);
+                        }
+                    } catch (e) {
+                        console.error(`Error loading team member: ${e}`);
+                    }
+                }
+
+                // Fetch publications for each member
+                const allPublications = [];
+                const pubmedIds = new Set();
+
+                for (const member of members) {
+                    const lastName = member.lastName;
+                    const firstInitial = member.firstName.charAt(0);
+
+                    // Parse dates
+                    const startYear = member.startDate ? member.startDate.split('-')[0] : '2015';
+                    const endYear = member.endDate === 'current' ? new Date().getFullYear() : member.startDate.split('-')[0];
+
+                    // Query NCBI E-utilities
+                    const searchQuery = `${lastName} ${firstInitial}[Author] AND (${startYear}:${endYear}[PDAT])`;
+                    const searchUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURIComponent(searchQuery)}&retmode=json&retmax=100`;
+
+                    try {
+                        const searchResp = await fetch(searchUrl);
+                        const searchData = await searchResp.json();
+
+                        if (searchData.esearchresult && searchData.esearchresult.idlist) {
+                            const ids = searchData.esearchresult.idlist;
+
+                            // Fetch details for these IDs
+                            if (ids.length > 0) {
+                                const summaryUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${ids.join(',')}&retmode=json`;
+                                const summaryResp = await fetch(summaryUrl);
+                                const summaryData = await summaryResp.json();
+
+                                if (summaryData.result) {
+                                    ids.forEach(id => {
+                                        if (!pubmedIds.has(id) && summaryData.result[id]) {
+                                            pubmedIds.add(id);
+                                            const pub = summaryData.result[id];
+                                            allPublications.push({
+                                                pmid: id,
+                                                title: pub.title || 'No title',
+                                                authors: pub.authors ? pub.authors.map(a => a.name).join(', ') : 'Unknown',
+                                                journal: pub.source || 'Unknown',
+                                                year: pub.pubdate ? pub.pubdate.split(' ')[0] : 'Unknown'
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        }
+
+                        // Rate limiting - wait 350ms between requests
+                        await new Promise(resolve => setTimeout(resolve, 350));
+
+                    } catch (err) {
+                        console.error(`Error fetching publications for ${member.firstName} ${member.lastName}:`, err);
+                    }
+                }
+
+                // Sort by year (newest first)
+                allPublications.sort((a, b) => b.year.localeCompare(a.year));
+
+                // Display publications
+                if (allPublications.length === 0) {
+                    container.innerHTML = '<p class="small-muted">No publications found.</p>';
+                } else {
+                    let html = '';
+                    allPublications.forEach(pub => {
+                        html += `
+                    <div class="publication-item">
+                        <div class="title">${pub.title}</div>
+                        <div class="authors">${pub.authors}</div>
+                        <div class="journal">${pub.journal}, ${pub.year}</div>
+                        <a href="https://pubmed.ncbi.nlm.nih.gov/${pub.pmid}/" target="_blank">View on PubMed</a>
+                    </div>
+                `;
+                    });
+                    container.innerHTML = html;
+                }
+
+            } catch (error) {
+                console.error('Error loading publications:', error);
+                container.innerHTML = '<p class="small-muted">Error loading publications. Please try again later.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchPublicationsFromNCBI();
+        });
+    </script>
+
+</body>
+
+</html>

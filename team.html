@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Team - Reproducible Bioinformatics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="brand"><a href="index.html">Reproducible Bioinformatics</a></div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="publications.html">Publications</a></li>
+                    <li><a href="collaborations.html">Collaborations</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contacts.html">Contacts</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h2>Team</h2>
+        <p>
+            Our interdisciplinary group includes researchers at various career stages, all dedicated to
+            advancing reproducible bioinformatics and omics analysis.
+        </p>
+
+        <h3>Members</h3>
+        <div class="team-grid" id="current-members"></div>
+
+        <h3>Former Members</h3>
+        <div class="team-grid" id="former-members"></div>
+    </main>
+
+    <script src="common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTeam();
+        });
+    </script>
+
+</body>
+
+</html>
