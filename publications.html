@@ -38,10 +38,26 @@
 
     <script src="common.js"></script>
     <script>
-        // NCBI E-utilities API integration
+        // NCBI E-utilities API integration with batch loading
+        let allPublications = [];
+        let displayedCount = 0;
+        const BATCH_SIZE = 20;
+
         async function fetchPublicationsFromNCBI() {
             const container = document.getElementById('publications-list');
-            container.innerHTML = '<div class="loading">Fetching publications from NCBI PubMed...</div>';
+            container.innerHTML = `
+                <div class="loading">
+                    <div style="display: inline-block; width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                    <p style="margin-top: 1rem;">Fetching publications from NCBI PubMed...</p>
+                    <p id="progress-text" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;"></p>
+                </div>
+                <style>
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                </style>
+            `;
 
             try {
                 // Load all team members to get their periods
@@ -59,16 +75,25 @@
                 }
 
                 // Fetch publications for each member
-                const allPublications = [];
                 const pubmedIds = new Set();
+                let processedMembers = 0;
 
                 for (const member of members) {
                     const lastName = member.lastName;
                     const firstInitial = member.firstName.charAt(0);
 
-                    // Parse dates
+                    // Parse dates - FIX: use endDate for endYear, not startDate!
                     const startYear = member.startDate ? member.startDate.split('-')[0] : '2015';
-                    const endYear = member.endDate === 'current' ? new Date().getFullYear() : member.startDate.split('-')[0];
+                    const endYear = member.endDate === 'current'
+                        ? new Date().getFullYear()
+                        : (member.endDate ? member.endDate.split('-')[0] : new Date().getFullYear());
+
+                    // Update progress
+                    processedMembers++;
+                    const progressEl = document.getElementById('progress-text');
+                    if (progressEl) {
+                        progressEl.textContent = `Processing ${member.firstName} ${member.lastName} (${processedMembers}/${members.length})...`;
+                    }
 
                     // Query NCBI E-utilities
                     const searchQuery = `${lastName} ${firstInitial}[Author] AND (${startYear}:${endYear}[PDAT])`;
@@ -116,13 +141,36 @@
                 // Sort by year (newest first)
                 allPublications.sort((a, b) => b.year.localeCompare(a.year));
 
-                // Display publications
-                if (allPublications.length === 0) {
-                    container.innerHTML = '<p class="small-muted">No publications found.</p>';
-                } else {
-                    let html = '';
-                    allPublications.forEach(pub => {
-                        html += `
+                // Display first batch
+                displayedCount = 0;
+                displayPublications();
+
+            } catch (error) {
+                console.error('Error loading publications:', error);
+                container.innerHTML = '<p class="small-muted">Error loading publications. Please try again later.</p>';
+            }
+        }
+
+        function displayPublications() {
+            const container = document.getElementById('publications-list');
+
+            if (allPublications.length === 0) {
+                container.innerHTML = '<p class="small-muted">No publications found.</p>';
+                return;
+            }
+
+            // Display next batch
+            const endIndex = Math.min(displayedCount + BATCH_SIZE, allPublications.length);
+            let html = '';
+
+            if (displayedCount === 0) {
+                html = `<p class="small-muted" style="margin-bottom: 1.5rem;">Found ${allPublications.length} publications. Showing first ${Math.min(BATCH_SIZE, allPublications.length)}.</p>`;
+                container.innerHTML = '';
+            }
+
+            for (let i = displayedCount; i < endIndex; i++) {
+                const pub = allPublications[i];
+                html += `
                     <div class="publication-item">
                         <div class="title">${pub.title}</div>
                         <div class="authors">${pub.authors}</div>
@@ -130,14 +178,48 @@
                         <a href="https://pubmed.ncbi.nlm.nih.gov/${pub.pmid}/" target="_blank">View on PubMed</a>
                     </div>
                 `;
-                    });
-                    container.innerHTML = html;
-                }
-
-            } catch (error) {
-                console.error('Error loading publications:', error);
-                container.innerHTML = '<p class="small-muted">Error loading publications. Please try again later.</p>';
             }
+
+            displayedCount = endIndex;
+
+            // Add to container
+            container.innerHTML += html;
+
+            // Remove old "Load More" button if exists
+            const oldButton = container.querySelector('.load-more-container');
+            if (oldButton) oldButton.remove();
+
+            // Add "Load More" button if there are more publications
+            if (displayedCount < allPublications.length) {
+                const buttonContainer = document.createElement('div');
+                buttonContainer.className = 'load-more-container';
+                buttonContainer.style.cssText = 'text-align: center; margin-top: 2rem;';
+                buttonContainer.innerHTML = `
+                    <button onclick="loadMore()" style="
+                        background-color: var(--accent);
+                        color: white;
+                        border: none;
+                        padding: 0.75rem 2rem;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 1rem;
+                        transition: background-color 0.2s;
+                    " onmouseover="this.style.backgroundColor='var(--accent-dark)'" onmouseout="this.style.backgroundColor='var(--accent)'">
+                        Load More (${allPublications.length - displayedCount} remaining)
+                    </button>
+                `;
+                container.appendChild(buttonContainer);
+            } else {
+                const endMessage = document.createElement('p');
+                endMessage.className = 'small-muted';
+                endMessage.style.cssText = 'text-align: center; margin-top: 2rem;';
+                endMessage.textContent = 'All publications loaded.';
+                container.appendChild(endMessage);
+            }
+        }
+
+        function loadMore() {
+            displayPublications();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
