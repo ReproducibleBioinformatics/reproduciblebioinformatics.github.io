@@ -1,0 +1,17 @@
+{
+    "firstName": "Andrea",
+    "lastName": "Loiacono",
+    "position": "PhD Student",
+    "email": "andrea.loiacono@example.com",
+    "affiliation": "Department of Molecular Biotechnology and Health Sciences, University of Torino",
+    "startDate": "2021-10",
+    "endDate": "current",
+    "bio": "PhD student working on single-cell analysis",
+    "researchInterests": [
+        "Single-cell RNA-seq",
+        "Data analysis",
+        "Machine learning"
+    ],
+    "orcid": "0000-0000-0000-0000",
+    "photo": "Andrea_loiacono.jpg"
+}

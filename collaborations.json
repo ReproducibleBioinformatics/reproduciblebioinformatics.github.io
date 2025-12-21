@@ -1,0 +1,40 @@
+{
+    "homeLocation": {
+        "name": "Reproducible Bioinformatics Lab",
+        "city": "Torino",
+        "country": "Italy",
+        "lat": 45.0703,
+        "lon": 7.6869,
+        "isHome": true,
+        "description": "Department of Molecular Biotechnology and Health Sciences, University of Torino"
+    },
+    "collaborations": [
+        {
+            "name": "Example Institution 1",
+            "city": "Milano",
+            "country": "Italy",
+            "lat": 45.4642,
+            "lon": 9.1900,
+            "description": "Collaboration on single-cell analysis projects",
+            "contact": "Dr. Example Name"
+        },
+        {
+            "name": "Example Institution 2",
+            "city": "Rome",
+            "country": "Italy",
+            "lat": 41.9028,
+            "lon": 12.4964,
+            "description": "Joint research on cancer genomics",
+            "contact": "Prof. Example Name"
+        },
+        {
+            "name": "Example International Partner",
+            "city": "Barcelona",
+            "country": "Spain",
+            "lat": 41.3851,
+            "lon": 2.1734,
+            "description": "Collaboration on reproducible workflows",
+            "contact": "Dr. Example Name"
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "firstName": "Eliseo",
+    "lastName": "Martelli",
+    "position": "PhD Student",
+    "email": "eliseo.martelli@example.com",
+    "affiliation": "Department of Molecular Biotechnology and Health Sciences, University of Torino",
+    "startDate": "2022-01",
+    "endDate": "current",
+    "bio": "PhD student focusing on spatial transcriptomics",
+    "researchInterests": [
+        "Spatial transcriptomics",
+        "Image analysis",
+        "Multi-omics integration"
+    ],
+    "orcid": "0000-0000-0000-0000",
+    "photo": "Eliseo_Martelli.jpg"
+}

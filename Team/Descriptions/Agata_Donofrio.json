@@ -1,0 +1,17 @@
+{
+    "firstName": "Agata",
+    "lastName": "Donofrio",
+    "position": "Research Assistant",
+    "email": "agata.donofrio@example.com",
+    "affiliation": "Department of Molecular Biotechnology and Health Sciences, University of Torino",
+    "startDate": "2022-03",
+    "endDate": "current",
+    "bio": "Research assistant supporting bioinformatics analysis",
+    "researchInterests": [
+        "Transcriptomics",
+        "Data visualization",
+        "Reproducible research"
+    ],
+    "orcid": "0000-0000-0000-0000",
+    "photo": "Agata_Donofrio.jpg"
+}

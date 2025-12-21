@@ -1,0 +1,18 @@
+{
+    "firstName": "Neha",
+    "lastName": "Kulkarni",
+    "position": "Former Postdoc",
+    "email": "neha.kulkarni@example.com",
+    "affiliation": "Department of Molecular Biotechnology and Health Sciences, University of Torino",
+    "startDate": "2019-03",
+    "endDate": "2022-12",
+    "bio": "Former postdoctoral researcher",
+    "researchInterests": [
+        "Cancer genomics",
+        "Precision medicine",
+        "Bioinformatics"
+    ],
+    "orcid": "0000-0000-0000-0000",
+    "photo": "Neha-Kulkarni.jpg",
+    "currentPosition": "Assistant Professor at ABC University"
+}

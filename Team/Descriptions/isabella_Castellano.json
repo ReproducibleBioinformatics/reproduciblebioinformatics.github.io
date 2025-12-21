@@ -1,0 +1,17 @@
+{
+    "firstName": "Isabella",
+    "lastName": "Castellano",
+    "position": "Bioinformatician",
+    "email": "isabella.castellano@example.com",
+    "affiliation": "Department of Molecular Biotechnology and Health Sciences, University of Torino",
+    "startDate": "2020-09",
+    "endDate": "current",
+    "bio": "Bioinformatician specializing in RNA-seq analysis",
+    "researchInterests": [
+        "RNA-seq",
+        "Differential expression",
+        "Functional enrichment"
+    ],
+    "orcid": "0000-0000-0000-0000",
+    "photo": "isabella_Castellano.jpg"
+}

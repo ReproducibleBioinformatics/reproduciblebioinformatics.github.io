@@ -1,0 +1,18 @@
+{
+  "firstName": "Raffaele",
+  "lastName": "Calogero",
+  "position": "Principal Investigator",
+  "email": "raffaele.calogero@unito.it",
+  "affiliation": "Department of Molecular Biotechnology and Health Sciences, University of Torino",
+  "startDate": "2015-01",
+  "endDate": "current",
+  "bio": "Principal Investigator leading the Reproducible Bioinformatics group",
+  "researchInterests": [
+    "Reproducible Bioinformatics",
+    "Single-cell RNA-seq",
+    "Spatial Transcriptomics",
+    "FAIR data practices"
+  ],
+  "orcid": "0000-0000-0000-0000",
+  "photo": "Raffaele_Calogero.png"
+}

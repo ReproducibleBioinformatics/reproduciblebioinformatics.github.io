@@ -1,0 +1,17 @@
+{
+    "firstName": "Beatrice",
+    "lastName": "Nuvolari",
+    "position": "Master Student",
+    "email": "beatrice.nuvolari@example.com",
+    "affiliation": "Department of Molecular Biotechnology and Health Sciences, University of Torino",
+    "startDate": "2023-09",
+    "endDate": "current",
+    "bio": "Master student working on bioinformatics projects",
+    "researchInterests": [
+        "RNA-seq analysis",
+        "Computational biology",
+        "Open science"
+    ],
+    "orcid": "",
+    "photo": "Beatrice_Nuvolari.jpg"
+}

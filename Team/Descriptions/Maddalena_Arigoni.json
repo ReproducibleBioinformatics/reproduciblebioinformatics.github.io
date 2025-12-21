@@ -1,0 +1,17 @@
+{
+    "firstName": "Maddalena",
+    "lastName": "Arigoni",
+    "position": "Research Scientist",
+    "email": "maddalena.arigoni@example.com",
+    "affiliation": "Department of Molecular Biotechnology and Health Sciences, University of Torino",
+    "startDate": "2018-06",
+    "endDate": "current",
+    "bio": "Research scientist with expertise in genomics",
+    "researchInterests": [
+        "Genomics",
+        "NGS data analysis",
+        "Cancer genomics"
+    ],
+    "orcid": "0000-0000-0000-0000",
+    "photo": "Maddalena_Arigoni.jpg"
+}

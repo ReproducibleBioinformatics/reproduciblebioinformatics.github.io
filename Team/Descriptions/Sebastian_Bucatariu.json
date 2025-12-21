@@ -1,0 +1,18 @@
+{
+    "firstName": "Sebastian",
+    "lastName": "Bucatariu",
+    "position": "Former PhD Student",
+    "email": "sebastian.bucatariu@example.com",
+    "affiliation": "Department of Molecular Biotechnology and Health Sciences, University of Torino",
+    "startDate": "2021-01",
+    "endDate": "2025-06",
+    "bio": "Former PhD student, now working in industry",
+    "researchInterests": [
+        "Bioinformatics",
+        "Data science",
+        "Machine learning"
+    ],
+    "orcid": "0000-0000-0000-0000",
+    "photo": "Sebastian_Bucatariu.jpg",
+    "currentPosition": "Data Scientist at XYZ Company"
+}

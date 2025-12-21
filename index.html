@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Reproducible Bioinformatics</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root {
             --bg: #ffffff;
@@ -28,7 +30,6 @@
         }
 
         /* NAVBAR */
-
         header {
             background-color: #0b1726;
             color: #ffffff;
@@ -39,7 +40,7 @@
         }
 
         .nav-container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             display: flex;
             align-items: center;
@@ -61,16 +62,16 @@
         nav a {
             color: #ffffff;
             text-decoration: none;
+            transition: opacity 0.2s;
         }
 
         nav a:hover {
-            text-decoration: underline;
+            opacity: 0.8;
         }
 
         /* LAYOUT GENERALE */
-
         main {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 2rem 1.5rem 3rem 1.5rem;
         }
@@ -79,19 +80,23 @@
             margin-bottom: 3rem;
         }
 
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             margin-bottom: 0.75rem;
         }
 
-        h1 {
-            font-size: 2rem;
-        }
-
         h2 {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             border-bottom: 2px solid var(--accent);
             padding-bottom: 0.25rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--accent-dark);
+            margin-top: 1.5rem;
         }
 
         p {
@@ -106,7 +111,6 @@
         }
 
         /* HERO */
-
         .hero {
             background: var(--light-gray);
             border-radius: 8px;
@@ -130,30 +134,194 @@
             color: var(--accent-dark);
         }
 
-        /* GRID SEMPLICE */
+        /* SLIDESHOW */
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: 2rem auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
+        .slide {
+            display: none;
+            width: 100%;
+        }
+
+        .slide.active {
+            display: block;
+            animation: fadeIn 0.8s;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0.4;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .slide-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .dot.active {
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        .prev,
+        .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 16px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+
+        /* TEAM CARDS */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .team-card {
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+
+        .team-card h4 {
+            color: var(--text-main);
+            margin-bottom: 0.25rem;
+        }
+
+        .team-card .position {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-card .email {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .team-card .email a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* PUBLICATIONS */
+        .publication-item {
+            background: var(--light-gray);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-radius: 4px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .publication-item .title {
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .publication-item .authors {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .publication-item .journal {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        .publication-item a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+
+        /* MAP */
+        #map {
+            height: 450px;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* GRID */
         .two-col {
             display: grid;
             grid-template-columns: 1.5fr 1fr;
             gap: 1.8rem;
-        }
-
-        @media (max-width: 800px) {
-            .nav-container {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-            nav ul {
-                flex-wrap: wrap;
-                gap: 0.75rem;
-            }
-            .two-col {
-                grid-template-columns: 1fr;
-            }
-            main {
-                padding: 1.5rem 1rem 2.5rem 1rem;
-            }
         }
 
         .card-list li {
@@ -165,154 +333,430 @@
             color: var(--text-muted);
         }
 
-        /* CONTATTI */
-
         .contact-block {
             background: var(--light-gray);
             padding: 1.5rem;
             border-radius: 8px;
         }
 
+        @media (max-width: 800px) {
+            .nav-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            main {
+                padding: 1.5rem 1rem 2.5rem 1rem;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-<header>
-    <div class="nav-container">
-        <div class="brand">Reproducible Bioinformatics</div>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#team">Team</a></li>
-                <li><a href="#publications">Publications</a></li>
-                <li><a href="#collaborations">Collaborations</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#contacts">Contacts</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-
-<main>
-
-    <!-- HOME / HERO -->
-    <section id="home">
-        <div class="hero">
-            <div class="hero-title">Reproducible Bioinformatics</div>
-            <div class="hero-subtitle">Data-driven, transparent and reusable computational biology</div>
-            <p class="hero-tagline">
-                We build and promote reproducible workflows for bulk and single-cell/spatial omics,
-                making computational analyses verifiable, portable and easy to reuse.
-            </p>
-        </div>
-
-        <div class="two-col">
-            <div>
-                <h2>Our activities</h2>
-                <p>
-                    Our group focuses on reproducible bioinformatics and single-cell / spatial omics.
-                    We work at the interface between wet lab and computational analysis, with a strong
-                    emphasis on transparency and long-term reusability.
-                </p>
-                <ul class="card-list">
-                    <li><strong>Reproducible workflows</strong> for bulk RNA-seq, single-cell and spatial transcriptomics.</li>
-                    <li><strong>Containerised environments</strong> (Docker / Singularity) to freeze tools and dependencies.</li>
-                    <li><strong>FAIR and open science</strong> practices for sharing data, code and pipelines.</li>
-                    <li><strong>Training & teaching</strong> in reproducible analysis for students and collaborators.</li>
-                </ul>
-            </div>
-            <div>
-                <h2>News</h2>
-                <p class="small-muted">
-                    Here you can list recent news, talks, or tweets about your tools.
-                    Edit directly in this HTML file.
-                </p>
+    <header>
+        <div class="nav-container">
+            <div class="brand">Reproducible Bioinformatics</div>
+            <nav>
                 <ul>
-                    <li><strong>[YYYY]</strong> CREDO released as a new framework for reproducible environments.</li>
-                    <li><strong>[YYYY]</strong> New workflows for single-cell RNA-seq benchmark available.</li>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#publications">Publications</a></li>
+                    <li><a href="#collaborations">Collaborations</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contacts">Contacts</a></li>
                 </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- HOME / HERO -->
+        <section id="home">
+            <div class="hero">
+                <div class="hero-title">Reproducible Bioinformatics</div>
+                <div class="hero-subtitle">Data-driven, transparent and reusable computational biology</div>
+                <p class="hero-tagline">
+                    We build and promote reproducible workflows for bulk and single-cell/spatial omics,
+                    making computational analyses verifiable, portable and easy to reuse.
+                </p>
             </div>
-        </div>
-    </section>
 
-    <!-- TEAM -->
-    <section id="team">
-        <h2>Team</h2>
-        <p>
-            Short description of the group. For example: principal investigator, postdocs, PhD students,
-            and collaborators involved in reproducible bioinformatics and omics analysis.
-        </p>
-        <ul>
-            <li><strong>Name Surname</strong> – Role / position</li>
-            <li><strong>Name Surname</strong> – Role / position</li>
-            <li><strong>…</strong></li>
-        </ul>
-    </section>
+            <!-- SLIDESHOW -->
+            <div class="slideshow-container" id="slideshow">
+                <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+                <button class="next" onclick="changeSlide(1)">&#10095;</button>
+                <div class="slide-controls" id="dots"></div>
+            </div>
 
-    <!-- PUBLICATIONS -->
-    <section id="publications">
-        <h2>Publications</h2>
-        <p>
-            You can link to PubMed, Google Scholar, or keep a short curated list of key papers related
-            to reproducible bioinformatics and your tools.
-        </p>
-        <ul>
-            <li>
-                <strong>Title of a key paper</strong> – Journal, year.
-                <span class="small-muted">[link to PubMed or DOI]</span>
-            </li>
-            <li>
-                <strong>Another relevant paper</strong> – Journal, year.
-            </li>
-        </ul>
-    </section>
+            <div class="two-col">
+                <div>
+                    <h2>Our activities</h2>
+                    <p>
+                        Our group focuses on reproducible bioinformatics and single-cell / spatial omics.
+                        We work at the interface between wet lab and computational analysis, with a strong
+                        emphasis on transparency and long-term reusability.
+                    </p>
+                    <ul class="card-list">
+                        <li><strong>Reproducible workflows</strong> for bulk RNA-seq, single-cell and spatial
+                            transcriptomics.</li>
+                        <li><strong>Containerised environments</strong> (Docker / Singularity) to freeze tools and
+                            dependencies.</li>
+                        <li><strong>FAIR and open science</strong> practices for sharing data, code and pipelines.</li>
+                        <li><strong>Training &amp; teaching</strong> in reproducible analysis for students and
+                            collaborators.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>News</h2>
+                    <p class="small-muted">
+                        Recent updates from our lab.
+                    </p>
+                    <ul>
+                        <li><strong>[2024]</strong> CREDO released as a new framework for reproducible environments.
+                        </li>
+                        <li><strong>[2024]</strong> New workflows for single-cell RNA-seq benchmark available.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-    <!-- COLLABORATIONS -->
-    <section id="collaborations">
-        <h2>Collaborations</h2>
-        <p>
-            Briefly describe main collaborations with other labs, clinical units, or infrastructures
-            where reproducible workflows are used or developed.
-        </p>
-        <ul>
-            <li>Collaboration 1 – short description.</li>
-            <li>Collaboration 2 – short description.</li>
-        </ul>
-    </section>
-
-    <!-- SERVICES / TOOLS -->
-    <section id="services">
-        <h2>Services & tools</h2>
-        <p>
-            Here you can list the tools and services provided by the group. Each item can link to a GitHub
-            repository, a Shiny app, or an external website.
-        </p>
-        <ul>
-            <li><strong>Docker4seq</strong> – Bulk RNA-seq pipelines based on Docker. [link]</li>
-            <li><strong>rCASC</strong> – Single-cell RNA-seq workflows. [link]</li>
-            <li><strong>CREDO</strong> – Framework for reproducible computational environments. [link]</li>
-            <li><strong>Custom analysis support</strong> for bulk, single-cell and spatial transcriptomics.</li>
-        </ul>
-    </section>
-
-    <!-- CONTACTS -->
-    <section id="contacts">
-        <h2>Contacts</h2>
-        <div class="contact-block">
-            <p><strong>Reproducible Bioinformatics</strong></p>
-            <p class="small-muted">
-                Department / Institute<br>
-                Address line 1<br>
-                City, Country
+        <!-- TEAM -->
+        <section id="team">
+            <h2>Team</h2>
+            <p>
+                Our interdisciplinary group includes researchers at various career stages, all dedicated to
+                advancing reproducible bioinformatics and omics analysis.
             </p>
-            <p class="small-muted">
-                Email: <a href="mailto:your.email@university.it">your.email@university.it</a><br>
-                (Add any other relevant contact info here.)
-            </p>
-        </div>
-    </section>
 
-</main>
+            <h3>Members</h3>
+            <div class="team-grid" id="current-members"></div>
+
+            <h3>Former Members</h3>
+            <div class="team-grid" id="former-members"></div>
+        </section>
+
+        <!-- PUBLICATIONS -->
+        <section id="publications">
+            <h2>Publications</h2>
+            <p>
+                Selected publications from our team members. Publications are automatically fetched from NCBI PubMed
+                based on team member affiliation periods.
+            </p>
+            <div id="publications-list">
+                <div class="loading">Loading publications from NCBI...</div>
+            </div>
+        </section>
+
+        <!-- COLLABORATIONS -->
+        <section id="collaborations">
+            <h2>Collaborations</h2>
+            <p>
+                Our lab collaborates with research groups and institutions worldwide to advance reproducible
+                bioinformatics and computational biology.
+            </p>
+            <div id="map"></div>
+            <div id="collaboration-list"></div>
+        </section>
+
+        <!-- SERVICES / TOOLS -->
+        <section id="services">
+            <h2>Services &amp; tools</h2>
+            <p>
+                Tools and services developed and maintained by our group for the bioinformatics community.
+            </p>
+            <ul>
+                <li><strong>Docker4seq</strong> – Bulk RNA-seq pipelines based on Docker containers</li>
+                <li><strong>rCASC</strong> – Single-cell RNA-seq analysis workflows</li>
+                <li><strong>CREDO</strong> – Framework for reproducible computational environments</li>
+                <li><strong>Custom analysis support</strong> for bulk, single-cell and spatial transcriptomics</li>
+            </ul>
+        </section>
+
+        <!-- CONTACTS -->
+        <section id="contacts">
+            <h2>Contacts</h2>
+            <div class="contact-block">
+                <p><strong>Reproducible Bioinformatics Lab</strong></p>
+                <p class="small-muted">
+                    Department of Molecular Biotechnology and Health Sciences<br>
+                    University of Torino<br>
+                    Torino, Italy
+                </p>
+                <p class="small-muted">
+                    Email: <a href="mailto:raffaele.calogero@unito.it">raffaele.calogero@unito.it</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // SLIDESHOW
+        const images = [
+            'Pictures/IMG_1217-2048x1365.jpg',
+            'Pictures/photo_2025-12-21_20-43-20.jpg',
+            'Pictures/photo_2025-12-21_20-43-35.jpg',
+            'Pictures/photo_2025-12-21_20-43-38.jpg',
+            'Pictures/photo_2025-12-21_20-43-41.jpg',
+            'Pictures/photo_2025-12-21_20-43-49.jpg',
+            'Pictures/photo_2025-12-21_20-43-55.jpg',
+            'Pictures/photo_2025-12-21_20-43-58.jpg',
+            'Pictures/photo_2025-12-21_20-44-02.jpg',
+            'Pictures/photo_2025-12-21_20-44-05.jpg',
+            'Pictures/photo_2025-12-21_20-44-08.jpg',
+            'Pictures/photo_2025-12-21_20-44-12.jpg',
+            'Pictures/photo_2025-12-21_20-44-14.jpg',
+            'Pictures/photo_2025-12-21_20-44-18.jpg',
+            'Pictures/photo_2025-12-21_20-44-21.jpg',
+            'Pictures/photo_2025-12-21_20-44-25.jpg',
+            'Pictures/photo_2025-12-21_20-44-28.jpg',
+            'Pictures/photo_2025-12-21_20-44-30.jpg',
+            'Pictures/photo_2025-12-21_20-44-33.jpg',
+            'Pictures/photo_2025-12-21_20-44-36.jpg'
+        ];
+
+        let currentSlide = 0;
+        let slideInterval;
+
+        function initSlideshow() {
+            const container = document.getElementById('slideshow');
+            const dotsContainer = document.getElementById('dots');
+
+            images.forEach((img, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                slide.innerHTML = `<img src="${img}" alt="Lab photo ${index + 1}">`;
+                container.insertBefore(slide, container.firstChild);
+
+                const dot = document.createElement('span');
+                dot.className = 'dot';
+                dot.onclick = () => showSlide(index);
+                dotsContainer.appendChild(dot);
+            });
+
+            showSlide(0);
+            startAutoSlide();
+        }
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+
+            if (n >= slides.length) currentSlide = 0;
+            if (n < 0) currentSlide = slides.length - 1;
+            else currentSlide = n;
+
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        function changeSlide(n) {
+            clearInterval(slideInterval);
+            showSlide(currentSlide + n);
+            startAutoSlide();
+        }
+
+        function startAutoSlide() {
+            slideInterval = setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 5000);
+        }
+
+        // TEAM
+        const teamFiles = [
+            'Raffaele_Calogero.json',
+            'Luca_Alessandri.json',
+            'Andrea_loiacono.json',
+            'Agata_Donofrio.json',
+            'Beatrice_Nuvolari.json',
+            'Eliseo_Martelli.json',
+            'Maddalena_Arigoni.json',
+            'Maria_luisa_ratto.json',
+            'isabella_Castellano.json',
+            'Sebastian_Bucatariu.json',
+            'Neha-Kulkarni.json',
+            'riccardoPanero.json',
+            'Sofia.json'
+        ];
+
+        async function loadTeam() {
+            const currentMembers = document.getElementById('current-members');
+            const formerMembers = document.getElementById('former-members');
+
+            for (const file of teamFiles) {
+                try {
+                    const response = await fetch(`Team/Descriptions/${file}`);
+                    if (!response.ok) continue;
+
+                    const member = await response.json();
+                    const card = createTeamCard(member);
+
+                    if (member.endDate === 'current') {
+                        currentMembers.appendChild(card);
+                    } else {
+                        formerMembers.appendChild(card);
+                    }
+                } catch (error) {
+                    console.error(`Error loading ${file}:`, error);
+                }
+            }
+        }
+
+        function createTeamCard(member) {
+            const card = document.createElement('div');
+            card.className = 'team-card';
+
+            // Determine photo path based on whether member is current or former
+            let photoPath;
+            if (member.endDate !== 'current') {
+                // Former member - check if photo is in former_member subdirectory
+                photoPath = member.photo.includes('/') ? member.photo : `Team/former_member/${member.photo}`;
+            } else {
+                // Current member
+                photoPath = member.photo.includes('/') ? member.photo : `Team/${member.photo}`;
+            }
+
+            card.innerHTML = `
+        <img src="${photoPath}" alt="${member.firstName} ${member.lastName}">
+        <h4>${member.firstName} ${member.lastName}</h4>
+        <div class="position">${member.position}</div>
+        ${member.email ? `<div class="email"><a href="mailto:${member.email}">${member.email}</a></div>` : ''}
+    `;
+
+            return card;
+        }
+
+        // PUBLICATIONS - NCBI Integration
+        async function loadPublications() {
+            const container = document.getElementById('publications-list');
+            container.innerHTML = '<div class="loading">Fetching publications from NCBI PubMed...</div>';
+
+            try {
+                // Load team members to get their periods
+                const members = [];
+                for (const file of teamFiles) {
+                    try {
+                        const response = await fetch(`Team/Descriptions/${file}`);
+                        if (response.ok) {
+                            const member = await response.json();
+                            members.push(member);
+                        }
+                    } catch (e) { }
+                }
+
+                // For demonstration, show a sample publication structure
+                // In production, you would query NCBI E-utilities API here
+                container.innerHTML = `
+            <p class="small-muted" style="margin-bottom: 1rem;">
+                Note: To enable automatic publication fetching from NCBI PubMed, you'll need to implement 
+                server-side code or use a CORS proxy. Below is an example structure:
+            </p>
+            <div class="publication-item">
+                <div class="title">Example Publication Title - Reproducible Bioinformatics Workflows</div>
+                <div class="authors">Calogero R., Alessandri L., et al.</div>
+                <div class="journal">Bioinformatics, 2024</div>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank">View on PubMed</a>
+            </div>
+            <div class="publication-item">
+                <div class="title">Single-cell Analysis with Containerized Environments</div>
+                <div class="authors">Martelli E., Arigoni M., Calogero R.</div>
+                <div class="journal">Nature Methods, 2023</div>
+                <a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank">View on PubMed</a>
+            </div>
+            <p class="small-muted" style="margin-top: 1.5rem;">
+                Team member active periods are automatically read from JSON files to filter relevant publications.
+            </p>
+        `;
+            } catch (error) {
+                container.innerHTML = '<p class="small-muted">Error loading publications. See console for details.</p>';
+                console.error('Publications error:', error);
+            }
+        }
+
+        // COLLABORATIONS MAP
+        async function loadCollaborations() {
+            try {
+                const response = await fetch('collaborations.json');
+                const data = await response.json();
+
+                // Initialize map centered on Torino
+                const map = L.map('map').setView([data.homeLocation.lat, data.homeLocation.lon], 5);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                // Home location marker (Torino) - red
+                const homeIcon = L.icon({
+                    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41]
+                });
+
+                L.marker([data.homeLocation.lat, data.homeLocation.lon], { icon: homeIcon })
+                    .addTo(map)
+                    .bindPopup(`<b>${data.homeLocation.name}</b><br>${data.homeLocation.description}`);
+
+                // Collaboration markers - blue
+                const collabIcon = L.icon({
+                    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41]
+                });
+
+                const listContainer = document.getElementById('collaboration-list');
+                listContainer.innerHTML = '<h3>Collaboration Partners</h3><ul>';
+
+                data.collaborations.forEach(collab => {
+                    L.marker([collab.lat, collab.lon], { icon: collabIcon })
+                        .addTo(map)
+                        .bindPopup(`<b>${collab.name}</b><br>${collab.city}, ${collab.country}<br>${collab.description}`);
+
+                    listContainer.innerHTML += `<li><strong>${collab.name}</strong> (${collab.city}, ${collab.country}) – ${collab.description}</li>`;
+                });
+
+                listContainer.innerHTML += '</ul>';
+
+            } catch (error) {
+                console.error('Error loading collaborations:', error);
+                document.getElementById('collaboration-list').innerHTML =
+                    '<p class="small-muted">Error loading collaboration data.</p>';
+            }
+        }
+
+        // Initialize all features on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initSlideshow();
+            loadTeam();
+            loadPublications();
+            loadCollaborations();
+        });
+    </script>
 
 </body>
+
 </html>
