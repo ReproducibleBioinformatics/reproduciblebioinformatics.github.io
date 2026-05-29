@@ -1,17 +1,14 @@
 {
     "firstName": "Agata",
-    "lastName": "Donofrio",
-    "position": "Research Assistant",
-    "email": "agata.donofrio@example.com",
-    "affiliation": "University of Turin",
-    "startDate": "2022-03",
-    "endDate": "current",
-    "bio": "Research assistant supporting bioinformatics analysis",
+    "lastName": "D'Onofrio",
+    "position": "master's student",
+    "email": "agata.donofrio16@gmail.com",
+    "affiliation": ["University of Turin","KTH"],
+    "startDate": "2023-02",
+    "endDate": "2026-03-31",
+    "bio": "Research focus on reproducible workflows and containerization",
     "researchInterests": [
-        "Transcriptomics",
-        "Data visualization",
-        "Reproducible research"
-    ],
-    "orcid": "0000-0000-0000-0000",
-    "photo": "Agata_Donofrio.jpg"
+        "Workflow automation",
+        "Bioinformatics pipelines"
+    ]
 }
