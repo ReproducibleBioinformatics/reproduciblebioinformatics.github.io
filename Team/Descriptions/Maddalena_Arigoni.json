@@ -6,11 +6,12 @@
     "affiliation": ["University of Turin"],
     "startDate": "2001",
     "endDate": "current",
-    "bio": "Job-related skills": [
-        "Sequencing: Illumina Technology, Oxford Nanopore Technology, Spatial Transcriptomics (Visium10 XGenomics,Curio), Single Cell Sequencing (Illumina and 10X platform)",
-        "Molecular biology: DNA extraction and manipulation (plasmid vector, genomic, CRISPR), sequence, restriction endonuclease, cloning system, RNA extraction and manipulation, quantitative PCR (Sybr Green,Taqman), protein analysis (Western Blot, immunoprecipitation,fusion-protein and production in bacteria), promoter analysis (dual luciferase system)"
-        "Cellular biology: Basic culture methods (Mammalian, Yeast, Bacteria), transient or constitutive transgene expression in cellular model, screening of expression library, valuation of drug cytotoxicity,
-        transient expression of mRNA silencing agents"],
+    "bio": "",
+    "jobRelatedSkills": [
+        "Sequencing: Illumina Technology, Oxford Nanopore Technology, Spatial Transcriptomics (Visium10 XGenomics, Curio), Single Cell Sequencing (Illumina and 10X platform)",
+        "Molecular biology: DNA extraction and manipulation (plasmid vector, genomic, CRISPR), sequence, restriction endonuclease, cloning system, RNA extraction and manipulation, quantitative PCR (Sybr Green, Taqman), protein analysis (Western Blot, immunoprecipitation, fusion-protein and production in bacteria), promoter analysis (dual luciferase system)",
+        "Cellular biology: Basic culture methods (Mammalian, Yeast, Bacteria), transient or constitutive transgene expression in cellular model, screening of expression library, valuation of drug cytotoxicity, transient expression of mRNA silencing agents"
+    ],
     "orcid": "0000-0003-4629-3841",
     "photo": "Maddalena_Arigoni.jpg"
 }
