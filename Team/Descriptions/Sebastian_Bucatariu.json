@@ -6,7 +6,7 @@
     "affiliation": "University of Turin",
     "startDate": "2021-01",
     "endDate": "2025-06",
-    "bio": "Former PhD student, now working in industry",
+    "bio": "Former bachelor student",
     "researchInterests": [
         "Bioinformatics",
         "Data science",
@@ -14,5 +14,5 @@
     ],
     "orcid": "0000-0000-0000-0000",
     "photo": "Sebastian_Bucatariu.jpg",
-    "currentPosition": "Data Scientist at XYZ Company"
+    "currentPosition": "Master student in Bioinformatics (Tor Vergata)"
 }
