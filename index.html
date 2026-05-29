@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Reproducible Bioinformatics - Home</title>
-    <meta name="viewport" content="width=device-width, initial-scale=">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -61,21 +61,140 @@
                         collaborators.</li>
                 </ul>
             </div>
+
             <div>
                 <h2>News</h2>
-                <p class="small-muted">
-                    Recent updates from our lab.
-                </p>
-                <ul>
-                    <li><strong>[2024]</strong> CREDO released as a new framework for reproducible environments.</li>
-                    <li><strong>[2024]</strong> New workflows for single-cell RNA-seq benchmark available.</li>
-                </ul>
+                <p class="small-muted">Recent updates from our lab.</p>
+                <div id="news-feed">
+                    <p class="small-muted">Loading news…</p>
+                </div>
             </div>
         </div>
     </main>
 
+    <style>
+        /* ── News feed ─────────────────────────────────────────────────────── */
+        .news-header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        .news-nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .news-btn {
+            background: none;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            width: 28px;
+            height: 28px;
+            font-size: 18px;
+            line-height: 1;
+            cursor: pointer;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+        }
+        .news-btn:hover:not(:disabled) { background: #f3f4f6; }
+        .news-btn:disabled { opacity: 0.35; cursor: default; }
+        .news-counter {
+            font-size: 12px;
+            color: #6b7280;
+            min-width: 52px;
+            text-align: center;
+        }
+        .news-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        @media (max-width: 600px) {
+            .news-grid { grid-template-columns: 1fr; }
+        }
+        .news-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            padding: 0.9rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            background: #fff;
+        }
+        .news-card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .news-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .news-meta { flex: 1; min-width: 0; }
+        .news-author {
+            font-size: 13px;
+            font-weight: 600;
+            color: #111827;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .news-position {
+            font-size: 11px;
+            color: #6b7280;
+        }
+        .news-date {
+            font-size: 11px;
+            color: #9ca3af;
+            flex-shrink: 0;
+        }
+        .news-text {
+            font-size: 13px;
+            color: #374151;
+            line-height: 1.5;
+            margin: 0;
+            flex: 1;
+        }
+        .news-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #f3f4f6;
+            padding-top: 6px;
+        }
+        .news-tag {
+            font-size: 11px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-radius: 999px;
+            padding: 2px 8px;
+            font-weight: 500;
+        }
+        .news-li-link {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: #0a66c2;
+            text-decoration: none;
+        }
+        .news-li-link:hover { text-decoration: underline; }
+    </style>
+
+    <script src="common.js"></script>
     <script>
-        // SLIDESHOW
+        // ── Slideshow ─────────────────────────────────────────────────────────
         const images = [
             'Pictures/IMG_1217-2048x1365.jpg',
             'Pictures/photo_2025-12-21_20-43-20.jpg',
@@ -103,16 +222,14 @@
         let slideInterval;
 
         function initSlideshow() {
-            const container = document.getElementById('slideshow');
+            const container     = document.getElementById('slideshow');
             const dotsContainer = document.getElementById('dots');
 
             images.forEach((img, index) => {
                 const slide = document.createElement('div');
                 slide.className = 'slide';
                 slide.innerHTML = `<img src="${img}" alt="Lab photo ${index + 1}">`;
-                // Add slides in order (not reversed)
-                const buttonsContainer = container.querySelector('.prev').parentNode;
-                buttonsContainer.insertBefore(slide, container.querySelector('.prev'));
+                container.insertBefore(slide, container.querySelector('.prev'));
 
                 const dot = document.createElement('span');
                 dot.className = 'dot';
@@ -126,20 +243,12 @@
 
         function showSlide(n) {
             const slides = document.querySelectorAll('.slide');
-            const dots = document.querySelectorAll('.dot');
-
-            // Proper wraparound logic
-            if (n >= slides.length) {
-                currentSlide = 0;
-            } else if (n < 0) {
-                currentSlide = slides.length - 1;
-            } else {
-                currentSlide = n;
-            }
-
-            slides.forEach(slide => slide.classList.remove('active'));
-            dots.forEach(dot => dot.classList.remove('active'));
-
+            const dots   = document.querySelectorAll('.dot');
+            if      (n >= slides.length) currentSlide = 0;
+            else if (n < 0)              currentSlide = slides.length - 1;
+            else                         currentSlide = n;
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d   => d.classList.remove('active'));
             slides[currentSlide].classList.add('active');
             dots[currentSlide].classList.add('active');
         }
@@ -151,17 +260,14 @@
         }
 
         function startAutoSlide() {
-            slideInterval = setInterval(() => {
-                showSlide(currentSlide + 1);
-            }, 5000);
+            slideInterval = setInterval(() => showSlide(currentSlide + 1), 5000);
         }
 
-        // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             initSlideshow();
+            loadNewsFeed();   // from common.js
         });
     </script>
 
 </body>
-
 </html>
