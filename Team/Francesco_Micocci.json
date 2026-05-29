@@ -1,0 +1,24 @@
+{
+    "firstName": "Francesco Maria Antonio",
+    "lastName": "Micocci",
+    "position": "Student",
+    "email": "francesco.micocci@edu.unito.it",
+    "affiliation": [
+        "University of Turin"
+    ],
+    "startDate": "2025-03",
+    "endDate": "current",
+    "bio": "Working on JupyDo, a JupyterHub-based platform for reproducible bioinformatics.",
+    "researchInterests": [
+        "Docker",
+        "Server Deployment"
+    ],
+    "orcid": "0009-0000-0453-1704",
+    "photo": "Francesco_Micocci.png",
+    "socials": {
+        "linkedin": null,
+        "github": null
+    },
+    "news": [],
+    "order": 5
+}

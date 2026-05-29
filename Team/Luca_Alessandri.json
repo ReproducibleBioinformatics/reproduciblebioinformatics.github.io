@@ -1,0 +1,25 @@
+{
+    "firstName": "Luca",
+    "lastName": "Alessandri",
+    "position": "RTDA",
+    "email": "luca.alessandri@unito.it",
+    "affiliation": [
+        "University of Turin"
+    ],
+    "startDate": "2020-01",
+    "endDate": "current",
+    "bio": "Research focus on reproducible workflows and containerization",
+    "researchInterests": [
+        "Docker/Singularity containers",
+        "Workflow automation",
+        "Bioinformatics pipelines"
+    ],
+    "orcid": "0000-0003-4678-3349",
+    "photo": "Luca_Alessandri.png",
+    "socials": {
+        "linkedin": "https://www.linkedin.com/in/luca-alessandr%C3%AC-0a2142158/",
+        "github": "https://github.com/alessandriLuca"
+    },
+    "news": [],
+    "order": 3
+}

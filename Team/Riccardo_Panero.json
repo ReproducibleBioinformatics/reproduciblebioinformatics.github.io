@@ -1,0 +1,25 @@
+{
+    "firstName": "Riccardo",
+    "lastName": "Panero",
+    "position": "Former Research Assistant",
+    "email": "riccardo.panero@gmail.com",
+    "affiliation": [
+        "University of Turin"
+    ],
+    "startDate": "2019-05",
+    "endDate": "2020-06",
+    "bio": "Former research assistant",
+    "researchInterests": [
+        "Transcriptomics",
+        "Data analysis",
+        "Workflow development"
+    ],
+    "orcid": "",
+    "photo": "riccardoPanero.jpg",
+    "currentPosition": "Bioinformatician at IOB - Institute of Molecular and Clinical Ophthalmology Basel",
+    "socials": {
+        "linkedin": "https://www.linkedin.com/in/riccardo-panero-51b7084a/",
+        "github": null
+    },
+    "news": []
+}
