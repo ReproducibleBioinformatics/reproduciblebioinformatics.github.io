@@ -3,66 +3,80 @@ const GITHUB_OWNER = 'ReproducibleBioinformatics';
 const GITHUB_REPO  = 'reproduciblebioinformatics.github.io';
 const TEAM_API     = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/Team/Descriptions`;
 const TEAM_RAW     = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/Team/Descriptions`;
+const PHOTOS_BASE  = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/Team`;
 
-// ─── Team loading (dynamic via GitHub API) ────────────────────────────────────
+// ─── loadTeamData: returns sorted array of all member objects ─────────────────
+async function loadTeamData() {
+    const res = await fetch(TEAM_API);
+    if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+    const entries = await res.json();
+    const files = entries
+        .filter(e => e.type === 'file' && e.name.endsWith('.json'))
+        .map(e => e.name);
+
+    const members = await Promise.all(
+        files.map(async (file, idx) => {
+            try {
+                const r = await fetch(`${TEAM_RAW}/${file}`);
+                if (!r.ok) return null;
+                const d = await r.json();
+                d._colorIdx = idx;
+                return d;
+            } catch (e) { return null; }
+        })
+    );
+
+    return members
+        .filter(Boolean)
+        .sort((a, b) => {
+            // 1. Se entrambi hanno order esplicito
+            if (a.order != null && b.order != null) return a.order - b.order;
+            // 2. Chi ha order esplicito viene prima
+            if (a.order != null) return -1;
+            if (b.order != null) return 1;
+            // 3. Altrimenti per startDate (chi è nel lab da più tempo prima)
+            const da = a.startDate ? new Date(a.startDate.length === 4 ? a.startDate + '-01-01' : a.startDate + '-01') : new Date(0);
+            const db = b.startDate ? new Date(b.startDate.length === 4 ? b.startDate + '-01-01' : b.startDate + '-01') : new Date(0);
+            return da - db;
+        });
+}
+
+// ─── Resolve photo path (tutte le foto stanno in Team/) ───────────────────────
+function resolvePhoto(member) {
+    if (!member.photo) return '';
+    return `${PHOTOS_BASE}/${member.photo}`;
+}
+
+// ─── Team page ────────────────────────────────────────────────────────────────
 async function loadTeam() {
     const currentMembers = document.getElementById('current-members');
     const formerMembers  = document.getElementById('former-members');
 
-    let files;
+    let members;
     try {
-        const res = await fetch(TEAM_API);
-        if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
-        const entries = await res.json();
-        files = entries
-            .filter(e => e.type === 'file' && e.name.endsWith('.json'))
-            .map(e => e.name);
+        members = await loadTeamData();
     } catch (err) {
-        console.error('Could not list team folder:', err);
+        console.error('Could not load team:', err);
         return;
     }
 
-    const members = await Promise.all(
-        files.map(async file => {
-            try {
-                const res = await fetch(`${TEAM_RAW}/${file}`);
-                if (!res.ok) return null;
-                return await res.json();
-            } catch (e) {
-                console.error(`Error loading ${file}:`, e);
-                return null;
-            }
-        })
-    );
-
-    members
-        .filter(Boolean)
-        .forEach(member => {
-            const card = createTeamCard(member);
-            if (member.endDate === 'current') {
-                currentMembers.appendChild(card);
-            } else {
-                formerMembers.appendChild(card);
-            }
-        });
+    members.forEach(member => {
+        const card = createTeamCard(member);
+        if (member.endDate === 'current') {
+            currentMembers.appendChild(card);
+        } else {
+            formerMembers.appendChild(card);
+        }
+    });
 }
 
 function createTeamCard(member) {
     const card = document.createElement('div');
     card.className = 'team-card';
 
-    let photoPath;
-    if (member.endDate !== 'current') {
-        photoPath = member.photo
-            ? (member.photo.includes('/') ? member.photo : `Team/former_member/${member.photo}`)
-            : '';
-    } else {
-        photoPath = member.photo
-            ? (member.photo.includes('/') ? member.photo : `Team/${member.photo}`)
-            : '';
-    }
+    const photoPath = resolvePhoto(member);
+    const socials   = member.socials || {};
 
-    const socials = member.socials || {};
     const socialLinks = [
         socials.linkedin ? `<a href="${socials.linkedin}" target="_blank" rel="noopener" title="LinkedIn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -85,40 +99,18 @@ function createTeamCard(member) {
 }
 
 // ─── News feed ────────────────────────────────────────────────────────────────
-// Loads all team JSON via GitHub API and builds a chronological news carousel.
-// Rules:
-//   - current members: all their news items are shown
-//   - former members:  only news items whose date falls within their startDate–endDate window
-
 async function loadNewsFeed() {
     const container = document.getElementById('news-feed');
     if (!container) return;
 
-    let files;
+    let members;
     try {
-        const res = await fetch(TEAM_API);
-        if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
-        const entries = await res.json();
-        files = entries
-            .filter(e => e.type === 'file' && e.name.endsWith('.json'))
-            .map(e => e.name);
+        members = await loadTeamData();
     } catch (err) {
-        console.error('Could not list team folder for news:', err);
+        console.error('Could not load team for news:', err);
         container.innerHTML = '<p class="small-muted">Could not load news.</p>';
         return;
     }
-
-    const members = await Promise.all(
-        files.map(async (file, idx) => {
-            try {
-                const res = await fetch(`${TEAM_RAW}/${file}`);
-                if (!res.ok) return null;
-                const d = await res.json();
-                d._colorIdx = idx;
-                return d;
-            } catch (e) { return null; }
-        })
-    );
 
     const AVATAR_COLORS = [
         {bg:'#dbeafe',color:'#1e40af'},{bg:'#dcfce7',color:'#166534'},
@@ -128,14 +120,13 @@ async function loadNewsFeed() {
 
     function toDate(str) {
         if (!str || str === 'current') return null;
-        // accepts "YYYY", "YYYY-MM", "YYYY-MM-DD"
-        return new Date(str.length === 4 ? str + '-01-01' : str.length === 7 ? str + '-01' : str);
+        return new Date(str.length === 4 ? str+'-01-01' : str.length === 7 ? str+'-01' : str);
     }
 
     function inWindow(itemDate, startDate, endDate) {
-        const d  = toDate(itemDate);
-        const s  = toDate(startDate);
-        const e  = endDate === 'current' ? new Date() : toDate(endDate);
+        const d = toDate(itemDate);
+        const s = toDate(startDate);
+        const e = endDate === 'current' ? new Date() : toDate(endDate);
         if (!d) return false;
         if (s && d < s) return false;
         if (e && d > e) return false;
@@ -143,25 +134,25 @@ async function loadNewsFeed() {
     }
 
     let items = [];
-    members.filter(Boolean).forEach(member => {
+    members.forEach(member => {
         const isCurrent = member.endDate === 'current';
         const news = Array.isArray(member.news) ? member.news : [];
         news.forEach(n => {
             if (!n.text && !n.title) return;
             if (!isCurrent && !inWindow(n.date, member.startDate, member.endDate)) return;
             items.push({
-                name:      `${member.firstName} ${member.lastName}`,
-                position:  member.position || '',
-                linkedin:  member.socials?.linkedin || null,
-                date:      n.date || '',
-                text:      n.text || n.title || '',
-                tag:       n.tag || 'news',
-                colorIdx:  member._colorIdx
+                name:           `${member.firstName} ${member.lastName}`,
+                position:       member.position || '',
+                linkedin:       member.socials?.linkedin || null,
+                linkedin_post:  n.linkedin_post || null,
+                date:           n.date || '',
+                text:           n.text || n.title || '',
+                tag:            n.tag || 'news',
+                colorIdx:       member._colorIdx
             });
         });
     });
 
-    // Sort newest first
     items.sort((a, b) => {
         const da = toDate(a.date), db = toDate(b.date);
         if (!da && !db) return 0;
@@ -175,7 +166,6 @@ async function loadNewsFeed() {
         return;
     }
 
-    // ── Render carousel ──────────────────────────────────────────────────────
     const PER_PAGE = 2;
     let page = 0;
 
@@ -217,11 +207,15 @@ async function loadNewsFeed() {
         grid.innerHTML = '';
         slice.forEach(item => {
             const c = AVATAR_COLORS[item.colorIdx % AVATAR_COLORS.length];
-            const liBtn = item.linkedin
-                ? `<a class="news-li-link" href="${item.linkedin}" target="_blank" rel="noopener">
+
+            // Footer: link al post LinkedIn se disponibile, altrimenti al profilo
+            const linkUrl   = item.linkedin_post || item.linkedin;
+            const linkLabel = item.linkedin_post ? 'View post' : 'LinkedIn';
+            const liBtn = linkUrl
+                ? `<a class="news-li-link" href="${linkUrl}" target="_blank" rel="noopener">
                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                       </svg> LinkedIn
+                       </svg> ${linkLabel}
                    </a>`
                 : '';
 
