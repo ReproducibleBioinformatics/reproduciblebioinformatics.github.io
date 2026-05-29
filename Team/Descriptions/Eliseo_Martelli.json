@@ -1,16 +1,14 @@
 {
     "firstName": "Eliseo",
     "lastName": "Martelli",
-    "position": "PhD Student",
-    "email": "eliseo.martelli@example.com",
+    "position": "Master student",
+    "email": "eliseo.martelli@edu.unito.it",
     "affiliation": "University of Turin",
-    "startDate": "2022-01",
-    "endDate": "current",
-    "bio": "PhD student focusing on spatial transcriptomics",
+    "startDate": "2024-01",
+    "endDate": "2026-02",
+    "bio": "Photography and computer science",
     "researchInterests": [
-        "Spatial transcriptomics",
-        "Image analysis",
-        "Multi-omics integration"
+        "Reproducibility"
     ],
     "orcid": "0000-0000-0000-0000",
     "photo": "Eliseo_Martelli.jpg"
