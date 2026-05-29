@@ -1,17 +1,17 @@
 {
     "firstName": "Maria Luisa",
     "lastName": "Ratto",
-    "position": "Postdoctoral Researcher",
-    "email": "marialuisa.ratto@example.com",
-    "affiliation": "University of Turin",
-    "startDate": "2021-05",
+    "position": "PhD student",
+    "email": "marialuisa.ratto@unito.it",
+    "affiliation": ["University of Turin"],
+    "startDate": "2022-11",
     "endDate": "current",
-    "bio": "Postdoctoral researcher in computational biology",
+    "bio": "Bioinformatics",
     "researchInterests": [
-        "Computational biology",
-        "Network analysis",
-        "Systems biology"
+        "Single-cell omics",
+        "Genomics",
+        "Bioinformatic pipelines"
     ],
-    "orcid": "0000-0000-0000-0000",
+    "orcid": "0000-0003-2610-242X",
     "photo": "Maria_luisa_ratto.jpg"
 }
