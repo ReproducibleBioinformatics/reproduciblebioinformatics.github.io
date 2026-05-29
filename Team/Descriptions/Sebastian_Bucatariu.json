@@ -3,7 +3,9 @@
     "lastName": "Bucatariu",
     "position": "Former PhD Student",
     "email": "sebastian.bucatariu@example.com",
-    "affiliation": "University of Turin",
+    "affiliation": [
+        "University of Turin"
+    ],
     "startDate": "2021-01",
     "endDate": "2025-06",
     "bio": "Former bachelor student",
@@ -14,5 +16,10 @@
     ],
     "orcid": "0000-0000-0000-0000",
     "photo": "Sebastian_Bucatariu.jpg",
-    "currentPosition": "Master student in Bioinformatics (Tor Vergata)"
+    "currentPosition": "Master student in Bioinformatics (Tor Vergata)",
+    "socials": {
+        "linkedin": "https://www.linkedin.com/in/sebastian-bucatariu-155872243/",
+        "github": "https://github.com/Vehx35"
+    },
+    "news": []
 }

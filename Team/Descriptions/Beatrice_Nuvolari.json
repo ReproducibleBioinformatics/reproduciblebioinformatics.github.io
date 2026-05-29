@@ -3,7 +3,10 @@
     "lastName": "Nuvolari",
     "position": "PhD Student",
     "email": "beatrice.nuvolari@unito.it",
-    "affiliation": ["University of Turin","Boston children's hospital"],
+    "affiliation": [
+        "University of Turin",
+        "Boston Children's Hospital"
+    ],
     "startDate": "2023-06",
     "endDate": "current",
     "bio": "Research focus on reproducible workflows and containerization applied to basic science and clinical research (lymphoma).",
@@ -11,8 +14,13 @@
         "Docker containers",
         "Workflow automation",
         "Bioinformatics pipelines",
-        "lymphoma genomics"
+        "Lymphoma genomics"
     ],
     "orcid": "0009-0009-8655-4074",
-    "photo": "Beatrice_Nuvolari.png"
+    "photo": "Beatrice_Nuvolari.png",
+    "socials": {
+        "linkedin": "https://www.linkedin.com/in/beatrice-nuvolari/",
+        "github": "https://github.com/beanuvolari"
+    },
+    "news": []
 }

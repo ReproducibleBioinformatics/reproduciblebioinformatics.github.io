@@ -4,7 +4,7 @@
     "position": "Research Technician at BGcore Lab",
     "email": "maddalena.arigoni@unito.it",
     "affiliation": ["University of Turin"],
-    "startDate": "2001",
+    "startDate": "2001-01",
     "endDate": "current",
     "bio": "",
     "jobRelatedSkills": [
@@ -13,5 +13,10 @@
         "Cellular biology: Basic culture methods (Mammalian, Yeast, Bacteria), transient or constitutive transgene expression in cellular model, screening of expression library, valuation of drug cytotoxicity, transient expression of mRNA silencing agents"
     ],
     "orcid": "0000-0003-4629-3841",
-    "photo": "Maddalena_Arigoni.jpg"
+    "photo": "Maddalena_Arigoni.jpg",
+    "socials": {
+        "linkedin": null,
+        "github": null
+    },
+    "news": []
 }

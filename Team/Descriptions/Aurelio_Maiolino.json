@@ -1,0 +1,22 @@
+{
+    "firstName": "Aurelio",
+    "lastName": "Maiolino",
+    "position": "Master's Student",
+    "email": "aurelio.maiolino@edu.unito.it",
+    "affiliation": ["University of Turin"],
+    "startDate": "2024-10",
+    "endDate": "current",
+    "bio": "Single Cell RNA Sequencing Analysis",
+    "researchInterests": [
+        "scRNA-seq",
+        "Docker containers",
+        "Bioinformatics"
+    ],
+    "orcid": "0009-0005-2559-9704",
+    "photo": "Aurelio_Maiolino.png",
+    "socials": {
+        "linkedin": "https://www.linkedin.com/in/aurelio-maiolino-0178a336a/",
+        "github": "https://github.com/Maiolino-Au"
+    },
+    "news": []
+}
