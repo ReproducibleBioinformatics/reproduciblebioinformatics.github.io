@@ -2,10 +2,10 @@
     "firstName": "Riccardo",
     "lastName": "Panero",
     "position": "Former Research Assistant",
-    "email": "riccardo.panero@example.com",
-    "affiliation": "University of Turin",
-    "startDate": "2020-06",
-    "endDate": "2023-09",
+    "email": "riccardo.panero@gmail.com",
+    "affiliation": ["University of Turin"],
+    "startDate": "2019-05",
+    "endDate": "2020-06",
     "bio": "Former research assistant",
     "researchInterests": [
         "Transcriptomics",
@@ -14,5 +14,5 @@
     ],
     "orcid": "",
     "photo": "riccardoPanero.jpg",
-    "currentPosition": "Bioinformatician at DEF Institute"
+    "currentPosition": "Bioinformatician at IOB - Institute of Molecular and Clinical Ophthalmology Basel"
 }
