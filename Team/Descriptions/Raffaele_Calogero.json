@@ -3,7 +3,9 @@
     "lastName": "Calogero",
     "position": "Principal Investigator",
     "email": "raffaele.calogero@unito.it",
-    "affiliation": ["University of Turin"],
+    "affiliation": [
+        "University of Turin"
+    ],
     "startDate": "1992-01",
     "endDate": "current",
     "bio": "Principal Investigator leading the Reproducible Bioinformatics group. Full Professor at University of Turin and PI of the Bioinformatics and Genomics core lab (BGcore). Co-founder of the Reproducible Bioinformatics Project.",

@@ -3,7 +3,9 @@
     "lastName": "Arigoni",
     "position": "Research Technician at BGcore Lab",
     "email": "maddalena.arigoni@unito.it",
-    "affiliation": ["University of Turin"],
+    "affiliation": [
+        "University of Turin"
+    ],
     "startDate": "2001-01",
     "endDate": "current",
     "bio": "",

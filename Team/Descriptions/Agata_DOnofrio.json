@@ -3,7 +3,10 @@
     "lastName": "D'Onofrio",
     "position": "master's student",
     "email": "agata.donofrio16@gmail.com",
-    "affiliation": ["University of Turin", "KTH"],
+    "affiliation": [
+        "University of Turin",
+        "KTH"
+    ],
     "startDate": "2023-02",
     "endDate": "2026-03-31",
     "bio": "Research focus on reproducible workflows and containerization",
@@ -15,5 +18,6 @@
         "linkedin": null,
         "github": null
     },
-    "news": []
+    "news": [],
+    "photo": "Agata_Donofrio.jpg"
 }
