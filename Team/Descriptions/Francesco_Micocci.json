@@ -3,7 +3,9 @@
     "lastName": "Micocci",
     "position": "Student",
     "email": "francesco.micocci@edu.unito.it",
-    "affiliation": ["University of Turin"],
+    "affiliation": [
+        "University of Turin"
+    ],
     "startDate": "2025-03",
     "endDate": "current",
     "bio": "Working on JupyDo, a JupyterHub-based platform for reproducible bioinformatics.",
@@ -17,5 +19,6 @@
         "linkedin": null,
         "github": null
     },
-    "news": []
+    "news": [],
+    "order": 5
 }

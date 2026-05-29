@@ -3,7 +3,9 @@
     "lastName": "Maiolino",
     "position": "Master's Student",
     "email": "aurelio.maiolino@edu.unito.it",
-    "affiliation": ["University of Turin"],
+    "affiliation": [
+        "University of Turin"
+    ],
     "startDate": "2024-10",
     "endDate": "current",
     "bio": "Single Cell RNA Sequencing Analysis",
