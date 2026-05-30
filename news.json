@@ -1,0 +1,58 @@
+[
+  {
+    "date": "2026-05-29",
+    "author": "BITS Bioinformatics Italian Society",
+    "title": "🏆 BITS2026 Poster Prize Winner",
+    "summary": "Big congratulations to the BITS2026 Poster Prize winner: Francesco Maria Antonio Micocci. Well done!",
+    "tag": "Award",
+    "linkedin": "https://www.linkedin.com/posts/bioinformatics-italian-society-bits_bits2026-activity-7466124897946312704-U5dC"
+  },
+  {
+    "date": "2026-05-28",
+    "author": "Luca Alessandrì",
+    "title": "REBEL: Reproducible Environments for Bioinformatics at BITS2026",
+    "summary": "Reproducibility in bioinformatics is broken — not because of bad science, but because software environments silently change over time. Luca Alessandrì presents REBEL at BITS2026: an open-source tool that automatically detects hidden dependencies, archives everything locally, and rebuilds identical computational environments at any future time, on any machine. No Docker expertise required.",
+    "tag": "Research",
+    "linkedin": "https://www.linkedin.com/posts/bits2026-bioinformatics-reproducibleresearch-share-7466044718762840064-e8gC/"
+  },
+  {
+    "date": "2026-05-27",
+    "author": "BITS2026",
+    "title": "BITS2026 Conference Opens in Padova",
+    "summary": "The conference has officially started, welcomed by BITS President Prof. Raffaele Calogero, Prof. Silvio Tosatto from the University of Padua, and BITS secretary Dr. Matteo Pallocca. The opening session 'Translational Bioinformatics' — chaired by Dr. Matteo Pallocca and Prof. Manuela Helmer-Citterich — covers precision medicine, cancer drug response prediction, microbiome-based prognostic markers, and long-read sequencing.",
+    "tag": "Conference",
+    "linkedin": "https://www.linkedin.com/feed/update/urn:li:activity:7465377436684386304/"
+  },
+  {
+    "date": "2026-05-27",
+    "author": "Young InfoLife · BITS · ISCB RSG Italy",
+    "title": "2nd International BioHackathon of BITS2026",
+    "summary": "Two days, five teams, one challenge: decoding biological networks from omics data. Young scientists from across Italy and Europe joined forces at the BioHackathon on the eve of BITS2026 in Padova, pushing the boundaries of computational biology through collaboration, creativity, and innovation.",
+    "tag": "BioHackathon",
+    "linkedin": "https://www.linkedin.com/posts/second-international-biohackathon-ugcPost-7465420303398252545-VINZ/"
+  },
+  {
+    "date": "2025-06-12",
+    "author": "BITS · Young InfoLife · ISCB RSG Italy",
+    "title": "🏆 Winners of the 1st International BioHackathon – BITS2025",
+    "summary": "Congratulations to the winning team of the first International BioHackathon of BITS! A special mention for Reproducibility goes to: Antonella Cruoglio, Beatrice Nuvolari, Emanuela Scafuri, and Sandro Gepiro Contaldo.",
+    "tag": "Award",
+    "linkedin": "https://www.linkedin.com/feed/update/urn:li:activity:7339676964254826496/"
+  },
+  {
+    "date": "2025-05-15",
+    "author": "Trusha Adeshara",
+    "title": "EMBL Course: Analysis and Integration of Transcriptome and Proteome Data",
+    "summary": "An incredible week at EMBL Heidelberg for the course on Analysis and Integration of Transcriptome and Proteome Data — five days of intensive methods, hands-on practicals, and conversations with leading computational biologists. Focused on endothelial heterogeneity in human atherosclerotic plaques using scRNAseq and proteomics. Luca Alessandrì contributed invaluable ideas for the project.",
+    "tag": "Training",
+    "linkedin": "https://www.linkedin.com/posts/trusha-adeshara-700a55168_embldataintegration-embl-multiomics-ugcPost-7459262078122438656-1Fnb/"
+  },
+  {
+    "date": "2025-01-20",
+    "author": "EMBL",
+    "title": "EMBL Course: Whole Transcriptome Data Analysis – Apply by 2 March",
+    "summary": "Learn how to analyse biological datasets using open-source software. The EMBL Course 'Whole Transcriptome Data Analysis' covers docker4seq and rCASC packages, developed to facilitate NGS data analysis. Apply by 2 March at s.embl.org/dat26-01-li.",
+    "tag": "Training",
+    "linkedin": "https://www.linkedin.com/feed/update/urn:li:activity:7391074968920477697/"
+  }
+]

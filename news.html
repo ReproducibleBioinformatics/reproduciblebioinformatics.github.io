@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>News – Reproducible Bioinformatics</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── News page ── */
+    .news-page-hero {
+      background: linear-gradient(135deg, #1a3a5c 0%, #2563a8 100%);
+      color: #fff;
+      padding: 3rem 2rem 2.4rem;
+      text-align: center;
+    }
+    .news-page-hero h1 { font-size: 2.2rem; margin: 0 0 .4rem; letter-spacing: -.5px; }
+    .news-page-hero p  { font-size: 1rem; opacity: .82; margin: 0; }
+
+    .news-page-wrap {
+      max-width: 900px;
+      margin: 2.4rem auto 4rem;
+      padding: 0 1.4rem;
+    }
+
+    /* Filters */
+    .news-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+      margin-bottom: 1.8rem;
+    }
+    .nf-pill {
+      padding: .32rem .95rem;
+      border-radius: 999px;
+      border: 1.5px solid #2563a8;
+      background: transparent;
+      color: #2563a8;
+      font-size: .82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .17s;
+      font-family: inherit;
+    }
+    .nf-pill:hover, .nf-pill.active {
+      background: #2563a8;
+      color: #fff;
+    }
+
+    /* Cards */
+    .news-cards { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    .nc {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.3rem 1.5rem;
+      display: flex;
+      gap: 1.3rem;
+      align-items: flex-start;
+      transition: box-shadow .2s, transform .2s;
+      animation: ncUp .38s ease both;
+    }
+    .nc:hover { box-shadow: 0 6px 22px rgba(37,99,168,.12); transform: translateY(-2px); }
+
+    @keyframes ncUp {
+      from { opacity:0; transform:translateY(14px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* Date column */
+    .nc-date { min-width: 64px; text-align: center; flex-shrink:0; }
+    .nc-day   { font-size:1.9rem; font-weight:700; color:#2563a8; line-height:1; }
+    .nc-mon   { font-size:.72rem; text-transform:uppercase; letter-spacing:1px; color:#64748b; }
+    .nc-yr    { font-size:.72rem; color:#94a3b8; }
+
+    .nc-rule  { width:1px; background:#e2e8f0; align-self:stretch; flex-shrink:0; }
+
+    /* Body */
+    .nc-body  { flex:1; }
+    .nc-tag   {
+      display:inline-block; padding:.14rem .6rem; border-radius:999px;
+      font-size:.7rem; font-weight:600; text-transform:uppercase;
+      letter-spacing:.5px; margin-bottom:.45rem;
+    }
+    .tag-Research    { background:#d1fae5; color:#065f46; }
+    .tag-Conference  { background:#ede9fe; color:#4c1d95; }
+    .tag-Award       { background:#fef9c3; color:#854d0e; }
+    .tag-BioHackathon{ background:#fee2e2; color:#991b1b; }
+    .tag-Training    { background:#e0f2fe; color:#0c4a6e; }
+    .tag-Lab-News    { background:#f3f4f6; color:#374151; }
+
+    .nc-author { font-size:.8rem; color:#64748b; margin-bottom:.25rem; }
+    .nc-title  { font-size:1.05rem; font-weight:600; color:#1e293b; margin:0 0 .4rem; line-height:1.35; }
+    .nc-text   { font-size:.9rem; color:#475569; line-height:1.55; margin:0 0 .85rem; }
+    .nc-link   {
+      display:inline-flex; align-items:center; gap:.3rem;
+      font-size:.82rem; color:#0a66c2; text-decoration:none; font-weight:500;
+      transition: gap .15s;
+    }
+    .nc-link:hover { gap:.5rem; text-decoration:underline; }
+
+    .no-res { text-align:center; color:#94a3b8; padding:3rem 0; }
+
+    @media (max-width:540px) {
+      .nc { flex-direction:column; gap:.7rem; }
+      .nc-rule { width:100%; height:1px; }
+      .nc-date { display:flex; gap:.5rem; align-items:baseline; text-align:left; }
+      .nc-day  { font-size:1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="brand"><a href="index.html">Reproducible Bioinformatics</a></div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="team.html">Team</a></li>
+          <li><a href="publications.html">Publications</a></li>
+          <li><a href="collaborations.html">Collaborations</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="news.html" class="active">News</a></li>
+          <li><a href="contacts.html">Contacts</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="news-page-hero">
+    <h1>News &amp; Updates</h1>
+    <p>Latest highlights from the lab and the bioinformatics community</p>
+  </div>
+
+  <div class="news-page-wrap">
+    <div class="news-filters" id="nf-bar">
+      <button class="nf-pill active" data-tag="All">All</button>
+    </div>
+    <div class="news-cards" id="nc-list"></div>
+    <div class="no-res" id="nc-empty" style="display:none">No items found.</div>
+  </div>
+
+  <script src="common.js"></script>
+  <script>
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const LI_SVG = `<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle">
+      <path d="M20.447 20.452H16.89v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a1.98 1.98 0 0 1-1.98-1.98c0-1.093.887-1.98 1.98-1.98 1.094 0 1.98.887 1.98 1.98a1.98 1.98 0 0 1-1.98 1.98zM7.119 20.452H3.554V9h3.565v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>
+    </svg>`;
+
+    let allNews = [], activeTag = 'All';
+
+    function tagClass(tag) { return 'tag-' + tag.replace(/\s+/g,'-'); }
+
+    function renderCards(data) {
+      const list  = document.getElementById('nc-list');
+      const empty = document.getElementById('nc-empty');
+      list.innerHTML = '';
+      const items = activeTag === 'All' ? data : data.filter(n => n.tag === activeTag);
+      if (!items.length) { empty.style.display = ''; return; }
+      empty.style.display = 'none';
+      items.forEach((item, i) => {
+        const d = new Date(item.date);
+        const card = document.createElement('div');
+        card.className = 'nc';
+        card.style.animationDelay = `${i * 0.055}s`;
+        card.innerHTML = `
+          <div class="nc-date">
+            <div class="nc-day">${d.getDate()}</div>
+            <div class="nc-mon">${MONTHS[d.getMonth()]}</div>
+            <div class="nc-yr">${d.getFullYear()}</div>
+          </div>
+          <div class="nc-rule"></div>
+          <div class="nc-body">
+            <span class="nc-tag ${tagClass(item.tag)}">${item.tag}</span>
+            ${item.author ? `<div class="nc-author">${item.author}</div>` : ''}
+            <div class="nc-title">${item.title}</div>
+            <p class="nc-text">${item.summary}</p>
+            ${item.linkedin ? `<a class="nc-link" href="${item.linkedin}" target="_blank" rel="noopener">
+              ${LI_SVG} View on LinkedIn →
+            </a>` : ''}
+          </div>`;
+        list.appendChild(card);
+      });
+    }
+
+    function buildFilters(data) {
+      const bar  = document.getElementById('nf-bar');
+      const tags = [...new Set(data.map(n => n.tag))];
+      tags.forEach(tag => {
+        const btn = document.createElement('button');
+        btn.className = 'nf-pill';
+        btn.dataset.tag = tag;
+        btn.textContent = tag;
+        bar.appendChild(btn);
+      });
+      bar.addEventListener('click', e => {
+        const p = e.target.closest('.nf-pill');
+        if (!p) return;
+        document.querySelectorAll('.nf-pill').forEach(x => x.classList.remove('active'));
+        p.classList.add('active');
+        activeTag = p.dataset.tag;
+        renderCards(allNews);
+      });
+    }
+
+    fetch('news.json')
+      .then(r => r.json())
+      .then(data => {
+        allNews = data.sort((a,b) => new Date(b.date) - new Date(a.date));
+        buildFilters(allNews);
+        renderCards(allNews);
+      })
+      .catch(() => {
+        document.getElementById('nc-list').innerHTML =
+          '<p style="color:#e53e3e;text-align:center">Could not load news.json</p>';
+      });
+  </script>
+</body>
+</html>
