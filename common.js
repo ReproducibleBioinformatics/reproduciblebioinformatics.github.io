@@ -29,19 +29,16 @@ async function loadTeamData() {
     return members
         .filter(Boolean)
         .sort((a, b) => {
-            // 1. Se entrambi hanno order esplicito
             if (a.order != null && b.order != null) return a.order - b.order;
-            // 2. Chi ha order esplicito viene prima
             if (a.order != null) return -1;
             if (b.order != null) return 1;
-            // 3. Altrimenti per startDate (chi è nel lab da più tempo prima)
             const da = a.startDate ? new Date(a.startDate.length === 4 ? a.startDate + '-01-01' : a.startDate + '-01') : new Date(0);
             const db = b.startDate ? new Date(b.startDate.length === 4 ? b.startDate + '-01-01' : b.startDate + '-01') : new Date(0);
             return da - db;
         });
 }
 
-// ─── Resolve photo path (tutte le foto stanno in Team/) ───────────────────────
+// ─── Resolve photo path ───────────────────────────────────────────────────────
 function resolvePhoto(member) {
     if (!member.photo) return '';
     return `${PHOTOS_BASE}/${member.photo}`;
@@ -98,85 +95,49 @@ function createTeamCard(member) {
     return card;
 }
 
-// ─── News feed ────────────────────────────────────────────────────────────────
+// ─── News feed (legge da news.json) ──────────────────────────────────────────
 async function loadNewsFeed() {
     const container = document.getElementById('news-feed');
     if (!container) return;
 
-    let members;
+    let items;
     try {
-        members = await loadTeamData();
+        const res = await fetch('news.json');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        items = data.sort((a, b) => new Date(b.date) - new Date(a.date));
     } catch (err) {
-        console.error('Could not load team for news:', err);
+        console.error('Could not load news.json:', err);
         container.innerHTML = '<p class="small-muted">Could not load news.</p>';
         return;
     }
 
-    const AVATAR_COLORS = [
-        {bg:'#dbeafe',color:'#1e40af'},{bg:'#dcfce7',color:'#166534'},
-        {bg:'#ede9fe',color:'#4c1d95'},{bg:'#fef9c3',color:'#713f12'},
-        {bg:'#ffe4e6',color:'#881337'},{bg:'#ffedd5',color:'#7c2d12'}
-    ];
-
-    function toDate(str) {
-        if (!str || str === 'current') return null;
-        return new Date(str.length === 4 ? str+'-01-01' : str.length === 7 ? str+'-01' : str);
-    }
-
-    function inWindow(itemDate, startDate, endDate) {
-        const d = toDate(itemDate);
-        const s = toDate(startDate);
-        const e = endDate === 'current' ? new Date() : toDate(endDate);
-        if (!d) return false;
-        if (s && d < s) return false;
-        if (e && d > e) return false;
-        return true;
-    }
-
-    let items = [];
-    members.forEach(member => {
-        const isCurrent = member.endDate === 'current';
-        const news = Array.isArray(member.news) ? member.news : [];
-        news.forEach(n => {
-            if (!n.text && !n.title) return;
-            if (!isCurrent && !inWindow(n.date, member.startDate, member.endDate)) return;
-            items.push({
-                name:           `${member.firstName} ${member.lastName}`,
-                position:       member.position || '',
-                linkedin:       member.socials?.linkedin || null,
-                linkedin_post:  n.linkedin_post || null,
-                date:           n.date || '',
-                text:           n.text || n.title || '',
-                tag:            n.tag || 'news',
-                colorIdx:       member._colorIdx
-            });
-        });
-    });
-
-    items.sort((a, b) => {
-        const da = toDate(a.date), db = toDate(b.date);
-        if (!da && !db) return 0;
-        if (!da) return 1;
-        if (!db) return -1;
-        return db - da;
-    });
-
-    if (items.length === 0) {
-        container.innerHTML = '<p class="small-muted">No news yet — add a <code>news</code> array to your team JSON.</p>';
+    if (!items.length) {
+        container.innerHTML = '<p class="small-muted">No news yet.</p>';
         return;
+    }
+
+    const TAG_COLORS = {
+        'Research':     ['#d1fae5','#065f46'],
+        'Conference':   ['#ede9fe','#4c1d95'],
+        'Award':        ['#fef9c3','#854d0e'],
+        'BioHackathon': ['#fee2e2','#991b1b'],
+        'Training':     ['#e0f2fe','#0c4a6e'],
+        'Lab News':     ['#f3f4f6','#374151'],
+    };
+
+    const LI_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+    </svg>`;
+
+    function fmtDate(str) {
+        if (!str) return '';
+        const d = new Date(str);
+        return isNaN(d) ? str : d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
     }
 
     const PER_PAGE = 2;
     let page = 0;
-
-    function initials(name) {
-        return name.split(' ').map(p => p[0]).join('').toUpperCase().slice(0, 2);
-    }
-    function fmtDate(str) {
-        if (!str) return '';
-        const d = new Date(str.length === 4 ? str+'-01-01' : str.length === 7 ? str+'-01' : str);
-        return isNaN(d) ? str : d.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
-    }
 
     container.innerHTML = `
         <div class="news-header">
@@ -187,6 +148,9 @@ async function loadNewsFeed() {
             </div>
         </div>
         <div class="news-grid" id="news-grid"></div>
+        <div style="text-align:right;margin-top:.75rem">
+            <a href="news.html" style="font-size:.82rem;color:#2563a8;text-decoration:none;font-weight:500">All news →</a>
+        </div>
     `;
 
     const grid    = container.querySelector('#news-grid');
@@ -198,42 +162,28 @@ async function loadNewsFeed() {
         const total = items.length;
         const start = page * PER_PAGE;
         const end   = Math.min(start + PER_PAGE, total);
-        const slice = items.slice(start, end);
 
         prevBtn.disabled = page === 0;
         nextBtn.disabled = end >= total;
         counter.textContent = `${start + 1}–${end} / ${total}`;
 
         grid.innerHTML = '';
-        slice.forEach(item => {
-            const c = AVATAR_COLORS[item.colorIdx % AVATAR_COLORS.length];
-
-            // Footer: link al post LinkedIn se disponibile, altrimenti al profilo
-            const linkUrl   = item.linkedin_post || item.linkedin;
-            const linkLabel = item.linkedin_post ? 'View post' : 'LinkedIn';
-            const liBtn = linkUrl
-                ? `<a class="news-li-link" href="${linkUrl}" target="_blank" rel="noopener">
-                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                           <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                       </svg> ${linkLabel}
-                   </a>`
-                : '';
-
+        items.slice(start, end).forEach(item => {
+            const [bg, fg] = TAG_COLORS[item.tag] || ['#eff6ff','#1d4ed8'];
+            const text = item.summary.length > 180 ? item.summary.slice(0, 177) + '…' : item.summary;
             const card = document.createElement('div');
             card.className = 'news-card';
             card.innerHTML = `
                 <div class="news-card-header">
-                    <div class="news-avatar" style="background:${c.bg};color:${c.color}">${initials(item.name)}</div>
                     <div class="news-meta">
-                        <div class="news-author">${item.name}</div>
-                        <div class="news-position">${item.position}</div>
+                        <div class="news-author">${item.author || ''}</div>
                     </div>
                     <div class="news-date">${fmtDate(item.date)}</div>
                 </div>
-                <p class="news-text">${item.text}</p>
+                <p class="news-text">${text}</p>
                 <div class="news-card-footer">
-                    <span class="news-tag">${item.tag}</span>
-                    ${liBtn}
+                    <span class="news-tag" style="background:${bg};color:${fg}">${item.tag}</span>
+                    ${item.linkedin ? `<a class="news-li-link" href="${item.linkedin}" target="_blank" rel="noopener">${LI_SVG} View post</a>` : ''}
                 </div>
             `;
             grid.appendChild(card);
