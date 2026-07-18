@@ -1,0 +1,24 @@
+{
+    "firstName": "Maurizio",
+    "lastName": "Alessandri",
+    "position": "External Collaborator",
+    "email": "maurales22663@gmail.com",
+    "affiliation": [
+        "Reproducible Bioinformatics, Via nizza 52"
+    ],
+    "startDate": "2026-02",
+    "endDate": "current",
+    "bio": "Research focus on reproducible workflows and containerization",
+    "researchInterests": [
+        "Docker/Singularity containers",
+        "Workflow automation",
+        "Bioinformatics pipelines"
+    ],
+    "orcid": "",
+    "photo": "Maurizio_Alessandri.jpg",
+    "socials": {
+        "github": "https://github.com/Baseolo"
+    },
+    "news": [],
+    "order": 7
+}
